@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/../Model/PDO.php';
 
 $httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient(getenv('CHANNEL_ACCESS_TOKEN'));
 $bot = new \LINE\LINEBot($httpClient, ['channelSecret' => getenv('CHANNEL_SECRET')]);
@@ -24,14 +25,15 @@ foreach ($events as $event) {
         continue;
     }
 
-    if (!($event instanceof \LINE\LINEBot\Event\MessageEvent)) {
-        error_log('Non message event has come');
-        continue;
-    }
-    if (!($event instanceof \LINE\LINEBot\Event\MessageEvent\TextMessage)) {
-        error_log('Non text message has come');
-        continue;
-    }
+    // 全イベントを許可する。
+    // if (!($event instanceof \LINE\LINEBot\Event\MessageEvent)) {
+    //     error_log('Non message event has come');
+    //     continue;
+    // }
+    // if (!($event instanceof \LINE\LINEBot\Event\MessageEvent\TextMessage)) {
+    //     error_log('Non text message has come');
+    //     continue;
+    // }
 
 
 // $bot->replyText($event->getReplyToken(), $event->getText());
@@ -48,13 +50,11 @@ foreach ($events as $event) {
     //     $profile["statusMessage"]
     // );
 
-    foreach ($profile as $k => $v) {
-        error_log($k . ":" . $v);
-    }
+// $url = parse_url(getenv('DATABASE_URL'));
+// $dsn = sprintf('pgsql:host=%s;dbname=%s', $url['host'], substr($url['path'], 1));
+// $pdo = new PDO($dsn, $url['user'], $url['pass']);
+$pdo = new DatabaseConnect;
 
-$url = parse_url(getenv('DATABASE_URL'));
-$dsn = sprintf('pgsql:host=%s;dbname=%s', $url['host'], substr($url['path'], 1));
-$pdo = new PDO($dsn, $url['user'], $url['pass']);
 
 $sql = 'insert into public.user (user_line_id, name, comment, picture_url) values (:user_line_id, :name, :comment, :picture_url)';
 // $sql = "insert into public.user (user_line_id, name) values (:user_line_id, :name)";
@@ -64,10 +64,15 @@ $stmt = $pdo->prepare($sql);
 // }
 // $flag = $stmt->execute(array($user_info));
 // $flag = $stmt->execute(array($profile["displayName"],$profile["userId"],$profile["pictureUrl"],$profile["statusMessage"]));
-$stmt->bindValue(":user_line_id", $profile["userId"]);
-$stmt->bindValue(":name", $profile["displayName"]);
-$stmt->bindValue(":comment", $profile["statusMessage"]);
-$stmt->bindValue(":picture_url", $profile["pictureUrl"]);
+$stmt->bindValue(":user_line_id", "test");
+$stmt->bindValue(":name", "test2");
+$stmt->bindValue(":comment", "test3");
+$stmt->bindValue(":picture_url", "test4");
+// $stmt->bindValue(":user_line_id", $profile["userId"]);
+// $stmt->bindValue(":name", $profile["displayName"]);
+// $stmt->bindValue(":comment", $profile["statusMessage"]);
+// $stmt->bindValue(":picture_url", $profile["pictureUrl"]);
+
 $flag = $stmt->execute();
 // $flag = $stmt->execute(array($user_id, $displayName));
 
