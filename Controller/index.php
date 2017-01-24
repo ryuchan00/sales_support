@@ -80,9 +80,9 @@ foreach ($events as $event) {
     $target_hh = array("9","10","11","12","13","14","15","16","17","18","19","20","21","22");
     $target_mm = array("00","15","30","45");
     $columnArray = array();
-    foreach ($target_hh) {
-
-    }
+    // foreach ($target_hh) {
+    //
+    // }
     for($i = 0; $i < 5; $i++) {
         $actionArray = array();
         array_push($actionArray, new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder (
