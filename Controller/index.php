@@ -76,12 +76,13 @@ foreach ($events as $event) {
     //          "Webで見る", "https://ct2.cservice.jp/res5.3t_demo/twilio_demo2/manage/index.php?mode=re_auth")
     //  );
 
-    $pref = array("北海道","青森県","岩手県","宮城県","秋田県","山形県","福島県","茨城県",
-    "栃木県","群馬県","埼玉県","千葉県","東京都","神奈川県","新潟県","富山県","石川県","福井県",
-    "長野県","山梨県","岐阜県","静岡県","愛知県","三重県","滋賀県","京都府","大阪府","兵庫県",
-    "奈良県","和歌山県","鳥取県","島根県","岡山県","広島県","山口県","徳島県","香川県","愛媛県",
-    "高知県","福岡県","佐賀県","長崎県","熊本県","大分県","宮崎県","鹿児島県","沖縄県");
+    // am 9:00 ~ pm 22:45
+    $target_hh = array("9","10","11","12","13","14","15","16","17","18","19","20","21","22");
+    $target_mm = array("00","15","30","45");
     $columnArray = array();
+    foreach ($target_hh) {
+
+    }
     for($i = 0; $i < 5; $i++) {
         $actionArray = array();
         array_push($actionArray, new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder (
@@ -90,6 +91,8 @@ foreach ($events as $event) {
             "ボタン" . $i . "-" . 2, "c-" . $i . "-" . 2));
         array_push($actionArray, new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder (
             "ボタン" . $i . "-" . 3, "c-" . $i . "-" . 3));
+        array_push($actionArray, new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder (
+            "ボタン" . $i . "-" . 4, "c-" . $i . "-" . 4));
         $column = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
             ($i + 1) . "日後の天気",
             "晴れ",
