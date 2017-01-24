@@ -75,19 +75,19 @@ foreach ($events as $event) {
 
 //
 //    replyImageMessage($bot, $event->getReplyToken(), "https://" . $_SERVER["HTTP_HOST"] . "/imgs/original.jpg", "https://" . $_SERVER["HTTP_HOST"] . "/imgs/preview.jpg");
-     replyButtonsTemplate($bot,
-         $event->getReplyToken(),
-         "お天気お知らせ - 今日は天気予報は晴れです",
-         "https://" . $_SERVER["HTTP_HOST"] . "/imgs/template.jpg",
-         "お天気お知らせ",
-         "今日は天気予報は晴れです",
-         new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder (
-             "明日の天気", "tomorrow"),
-         new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder (
-             "週末の天気", "weekend"),
-         new LINE\LINEBot\TemplateActionBuilder\UriTemplateActionBuilder (
-             "Webで見る", "https://ct2.cservice.jp/res5.3t_demo/twilio_demo2/manage/index.php?mode=re_auth")
-     );
+    //  replyButtonsTemplate($bot,
+    //      $event->getReplyToken(),
+    //      "お天気お知らせ - 今日は天気予報は晴れです",
+    //      "https://" . $_SERVER["HTTP_HOST"] . "/imgs/template.jpg",
+    //      "お天気お知らせ",
+    //      "今日は天気予報は晴れです",
+    //      new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder (
+    //          "明日の天気", "tomorrow"),
+    //      new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder (
+    //          "週末の天気", "weekend"),
+    //      new LINE\LINEBot\TemplateActionBuilder\UriTemplateActionBuilder (
+    //          "Webで見る", "https://ct2.cservice.jp/res5.3t_demo/twilio_demo2/manage/index.php?mode=re_auth")
+    //  );
     
     $pref = array("北海道","青森県","岩手県","宮城県","秋田県","山形県","福島県","茨城県",
     "栃木県","群馬県","埼玉県","千葉県","東京都","神奈川県","新潟県","富山県","石川県","福井県",
