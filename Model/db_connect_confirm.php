@@ -1,4 +1,5 @@
 <?php
+// 確認用
 $url = parse_url(getenv('DATABASE_URL'));
 
 $dsn = sprintf('pgsql:host=%s;dbname=%s', $url['host'], substr($url['path'], 1));

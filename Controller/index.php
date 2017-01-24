@@ -52,8 +52,8 @@ foreach ($events as $event) {
 
 // $url = parse_url(getenv('DATABASE_URL'));
 // $dsn = sprintf('pgsql:host=%s;dbname=%s', $url['host'], substr($url['path'], 1));
-// $pdo = new PDO($dsn, $url['user'], $url['pass']);
-$pdo = new DatabaseConnect;
+$pdo = new Connect;
+// $pdo = new DatabaseConnect;
 
 
 $sql = 'insert into public.user (user_line_id, name, comment, picture_url) values (:user_line_id, :name, :comment, :picture_url)';
