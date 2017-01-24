@@ -7,9 +7,8 @@ class Connect
         $url = parse_url(getenv('DATABASE_URL'));
         $dsn = sprintf('pgsql:host=%s;dbname=%s;charset=utf8;', $url['host'], substr($url['path'], 1));
         // $pdo = new PDO($dsn, $url['user'], $url['pass']);
-        $pdo = new PDO($dsn, $url['user'], $url['pass']);
         try{
-            $pdo=new PDO($dsn,$user,$pass,array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES '.SELF::UTF));
+            $pdo = new PDO($dsn, $url['user'], $url['pass']);
         }catch(Exception $e){
             error_log('error' .$e->getMesseage);
             die();
