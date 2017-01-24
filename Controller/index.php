@@ -56,7 +56,7 @@ foreach ($events as $event) {
     $pdo = new Connect;
     $sql = 'insert into public.user (user_line_id, name, comment, picture_url) values (:user_line_id, :name, :comment, :picture_url)';
     // $sql = "insert into public.user (user_line_id, name) values (:user_line_id, :name)";
-    $stmt = $pdo->prepare($sql);
+    $stmt = $pdo->pdo->prepare($sql);
     $stmt->bindValue(":user_line_id", $profile["userId"]);
     $stmt->bindValue(":name", $profile["displayName"]);
     $stmt->bindValue(":comment", $profile["statusMessage"]);
