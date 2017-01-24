@@ -14,7 +14,7 @@ class Connect
             die();
         }
         //エラーを表示してくれる。
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+        // $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
         return $pdo;
     }
 }
