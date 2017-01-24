@@ -88,24 +88,28 @@ foreach ($events as $event) {
          new LINE\LINEBot\TemplateActionBuilder\UriTemplateActionBuilder (
              "Webで見る", "https://ct2.cservice.jp/res5.3t_demo/twilio_demo2/manage/index.php?mode=re_auth")
      );
-
-//    $columnArray = array();
-//    for($i = 0; $i < 5; $i++) {
-//        $actionArray = array();
-//        array_push($actionArray, new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder (
-//            "ボタン" . $i . "-" . 1, "c-" . $i . "-" . 1));
-//        array_push($actionArray, new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder (
-//            "ボタン" . $i . "-" . 2, "c-" . $i . "-" . 2));
-//        array_push($actionArray, new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder (
-//            "ボタン" . $i . "-" . 3, "c-" . $i . "-" . 3));
-//        $column = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
-//            ($i + 1) . "日後の天気",
-//            "晴れ",
-//            "https://" . $_SERVER["HTTP_HOST"] .  "/imgs/template.jpg",
-//            $actionArray
-//        );
-//        array_push($columnArray, $column);
-//      }
-  // replyCarouselTemplate($bot, $event->getReplyToken(),"今後の天気予報", $columnArray);
-
+    
+    $pref = array("北海道","青森県","岩手県","宮城県","秋田県","山形県","福島県","茨城県",
+    "栃木県","群馬県","埼玉県","千葉県","東京都","神奈川県","新潟県","富山県","石川県","福井県",
+    "長野県","山梨県","岐阜県","静岡県","愛知県","三重県","滋賀県","京都府","大阪府","兵庫県",
+    "奈良県","和歌山県","鳥取県","島根県","岡山県","広島県","山口県","徳島県","香川県","愛媛県",
+    "高知県","福岡県","佐賀県","長崎県","熊本県","大分県","宮崎県","鹿児島県","沖縄県");
+    $columnArray = array();
+    for($i = 0; $i < 5; $i++) {
+        $actionArray = array();
+        array_push($actionArray, new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder (
+            "ボタン" . $i . "-" . 1, "c-" . $i . "-" . 1));
+        array_push($actionArray, new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder (
+            "ボタン" . $i . "-" . 2, "c-" . $i . "-" . 2));
+        array_push($actionArray, new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder (
+            "ボタン" . $i . "-" . 3, "c-" . $i . "-" . 3));
+        $column = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
+            ($i + 1) . "日後の天気",
+            "晴れ",
+            "https://" . $_SERVER["HTTP_HOST"] .  "/imgs/template.jpg",
+            $actionArray
+        );
+        array_push($columnArray, $column);
+    }
+    replyCarouselTemplate($bot, $event->getReplyToken(),"今後の天気予報", $columnArray);
 }
