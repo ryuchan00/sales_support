@@ -91,7 +91,16 @@ foreach ($events as $event) {
                 "https://" . $_SERVER["HTTP_HOST"] .  "/imgs/template.jpg",
                 $actionArray
             );
+            array_push($columnArray, $column);
         }
+    }
+    if (($k + 1) % 3 != 0) {
+        $column = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
+            "帰社時間選択",
+            "何時に帰社しますか?",
+            "https://" . $_SERVER["HTTP_HOST"] .  "/imgs/template.jpg",
+            $actionArray
+        );
         array_push($columnArray, $column);
     }
     replyCarouselTemplate($bot, $event->getReplyToken(),"帰社報告", $columnArray);
