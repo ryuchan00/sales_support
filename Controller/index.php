@@ -10,13 +10,13 @@ $signature = $_SERVER["HTTP_" . \LINE\LINEBot\Constant\HTTPHeader::LINE_SIGNATUR
 try {
   $events = $bot->parseEventRequest(file_get_contents('php://input'), $signature);
 } catch(\LINE\LINEBot\Exception\InvalidSignatureException $e) {
-  error_log("parseEventRequest failed. InvalidSignatureException => ".var_export($e, true));
+    error_log("parseEventRequest failed. InvalidSignatureException => ".var_export($e, true));
 } catch(\LINE\LINEBot\Exception\UnknownEventTypeException $e) {
-  error_log("parseEventRequest failed. UnknownEventTypeException => ".var_export($e, true));
+    error_log("parseEventRequest failed. UnknownEventTypeException => ".var_export($e, true));
 } catch(\LINE\LINEBot\Exception\UnknownMessageTypeException $e) {
-  error_log("parseEventRequest failed. UnknownMessageTypeException => ".var_export($e, true));
+    error_log("parseEventRequest failed. UnknownMessageTypeException => ".var_export($e, true));
 } catch(\LINE\LINEBot\Exception\InvalidEventRequestException $e) {
-  error_log("parseEventRequest failed. InvalidEventRequestException => ".var_export($e, true));
+    error_log("parseEventRequest failed. InvalidEventRequestException => ".var_export($e, true));
 }
 
 foreach ($events as $event) {
@@ -37,7 +37,6 @@ foreach ($events as $event) {
 
 
 // $bot->replyText($event->getReplyToken(), $event->getText());
-    $profile = $bot->getProfile($event->getUserId())->getJSONDecodedBody();
     $message = "http://codezine.jp/article/detail/9905";
 //$message = $profile["displayName"] . "さん、ランダムでスタンプで返答します。";
 //    $user_id = $profile["userId"];
@@ -53,38 +52,21 @@ foreach ($events as $event) {
 // $url = parse_url(getenv('DATABASE_URL'));
 // $dsn = sprintf('pgsql:host=%s;dbname=%s', $url['host'], substr($url['path'], 1));
 // $pdo = new PDO($dsn, $url['user'], $url['pass']);
-$pdo = new DatabaseConnect;
-
-
-$sql = 'insert into public.user (user_line_id, name, comment, picture_url) values (:user_line_id, :name, :comment, :picture_url)';
-// $sql = "insert into public.user (user_line_id, name) values (:user_line_id, :name)";
-$stmt = $pdo->prepare($sql);
-// foreach ($user_info as $k => $v) {
-//     error_log($k . ":" . $v);
-// }
-// $flag = $stmt->execute(array($user_info));
-// $flag = $stmt->execute(array($profile["displayName"],$profile["userId"],$profile["pictureUrl"],$profile["statusMessage"]));
-$stmt->bindValue(":user_line_id", "test");
-$stmt->bindValue(":name", "test2");
-$stmt->bindValue(":comment", "test3");
-$stmt->bindValue(":picture_url", "test4");
-// $stmt->bindValue(":user_line_id", $profile["userId"]);
-// $stmt->bindValue(":name", $profile["displayName"]);
-// $stmt->bindValue(":comment", $profile["statusMessage"]);
-// $stmt->bindValue(":picture_url", $profile["pictureUrl"]);
-
-$flag = $stmt->execute();
-// $flag = $stmt->execute(array($user_id, $displayName));
-
-if ($flag){
-   error_log('データの追加に成功しました');
-}else{
-   error_log('データの追加に失敗しました');
-}
-
-// 返答するLINEスタンプをランダムで算出
-    $stkid = mt_rand(1, 17);
-
+    $profile = $bot->getProfile($event->getUserId())->getJSONDecodedBody();
+    $pdo = new Connect;
+    $sql = 'insert into public.user (user_line_id, name, comment, picture_url) values (:user_line_id, :name, :comment, :picture_url)';
+    // $sql = "insert into public.user (user_line_id, name) values (:user_line_id, :name)";
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindValue(":user_line_id", $profile["userId"]);
+    $stmt->bindValue(":name", $profile["displayName"]);
+    $stmt->bindValue(":comment", $profile["statusMessage"]);
+    $stmt->bindValue(":picture_url", $profile["pictureUrl"]);
+    $flag = $stmt->execute();
+    if ($flag){
+       error_log('データの追加に成功しました');
+    }else{
+       error_log('データの追加に失敗しました');
+    }
 //$bot->replyMessage($event->getReplyToken(),
 //  (new \LINE\LINEBot\MessageBuilder\MultiMessageBuilder())
 //    ->add(new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($message))
