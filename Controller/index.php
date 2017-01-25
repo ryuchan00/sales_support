@@ -98,6 +98,21 @@ foreach ($events as $event) {
             array_push($columnArray, $column);
             $actionArray = array();
             error_log("process 2");
+            
+            array_push($actionArray, new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder (
+                "ボタン" . $i . "-" . 1, "c-" . $i . "-" . 1));
+            array_push($actionArray, new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder (
+                "ボタン" . $i . "-" . 2, "c-" . $i . "-" . 2));
+            array_push($actionArray, new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder (
+                "ボタン" . $i . "-" . 3, "c-" . $i . "-" . 3));
+            $column = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
+                ($i + 1) . "日後の天気",
+                "晴れ",
+                "https://" . $_SERVER["HTTP_HOST"] .  "/imgs/template.png",
+                $actionArray
+            );
+            array_push($columnArray, $column);
+            error_log("process 3");
         }
     }
     replyCarouselTemplate($bot, $event->getReplyToken(),"帰社報告", $columnArray);
