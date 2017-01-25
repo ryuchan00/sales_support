@@ -113,7 +113,8 @@ foreach ($events as $event) {
     // 「はい」処理
     
     // 「いいえ」処理
-
+    
+    $columnArray = array();
     for($i = 0; $i < 5; $i++) {
         $actionArray = array();
         array_push($actionArray, new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder (
