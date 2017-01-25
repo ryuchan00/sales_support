@@ -79,34 +79,36 @@ foreach ($events as $event) {
 
     // 帰社処理
     // am 9:00 ~ pm 22:45
-    // $target_hh = array("9","10","11","12","13","14","15","16","17","18","19","20","21","22");
-    // $target_mm = array("00","15","30","45");
-    // $columnArray = [];
-    // $actionArray = [];
-    // foreach ($target_hh as $k => $v) {
-    //     array_push($actionArray, new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder (
-    //         $v, $v));
-    //     if (($k + 1) % 3 == 0) {
-    //         $column = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
-    //             "帰社時間選択",
-    //             "何時に帰社しますか?",
-    //             "https://" . $_SERVER["HTTP_HOST"] .  "/imgs/template.png",
-    //             $actionArray
-    //         );
-    //         array_push($columnArray, $column);
-    //         $actionArray = [];
-    //     }
-    // }
-    // if (($k + 1) % 3 != 0) {
-    //     $column = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
-    //         "帰社時間選択",
-    //         "何時に帰社しますか?",
-    //         "https://" . $_SERVER["HTTP_HOST"] .  "/imgs/template.png",
-    //         $actionArray
-    //     );
-    //     array_push($columnArray, $column);
-    // }
-    // replyCarouselTemplate($bot, $event->getReplyToken(),"帰社報告", $columnArray);
+    $target_hh = array("9","10","11","12","13","14","15","16","17","18","19","20","21","22");
+    $target_mm = array("00","15","30","45");
+    $columnArray = array();
+    $actionArray = array();
+    foreach ($target_hh as $k => $v) {
+        array_push($actionArray, new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder (
+            $v, $v));
+        error_log("process 1");
+        if (($k + 1) % 3 == 0) {
+            $column = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
+                "帰社時間選択",
+                "何時に帰社しますか?",
+                "https://" . $_SERVER["HTTP_HOST"] .  "/imgs/template.png",
+                $actionArray
+            );
+            array_push($columnArray, $column);
+            $actionArray = array();
+            error_log("process 2");
+        }
+    }
+    if (($k + 1) % 3 != 0) {
+        $column = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
+            "帰社時間選択",
+            "何時に帰社しますか?",
+            "https://" . $_SERVER["HTTP_HOST"] .  "/imgs/template.png",
+            $actionArray
+        );
+        array_push($columnArray, $column);
+    }
+    replyCarouselTemplate($bot, $event->getReplyToken(),"帰社報告", $columnArray);
     
     // 直帰処理
     
