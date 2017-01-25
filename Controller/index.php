@@ -75,6 +75,7 @@ foreach ($events as $event) {
     //          "Webで見る", "https://ct2.cservice.jp/res5.3t_demo/twilio_demo2/manage/index.php?mode=re_auth")
     //  );
     
+    
     // 友達追加処理
 
     // 帰社処理
