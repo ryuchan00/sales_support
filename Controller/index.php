@@ -79,34 +79,34 @@ foreach ($events as $event) {
 
     // 帰社処理
     // am 9:00 ~ pm 22:45
-    $target_hh = array("9","10","11","12","13","14","15","16","17","18","19","20","21","22");
-    $target_mm = array("00","15","30","45");
-    $columnArray = [];
-    $actionArray = [];
-    foreach ($target_hh as $k => $v) {
-        array_push($actionArray, new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder (
-            $v, $v));
-        if (($k + 1) % 3 == 0) {
-            $column = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
-                "帰社時間選択",
-                "何時に帰社しますか?",
-                "https://" . $_SERVER["HTTP_HOST"] .  "/imgs/template.png",
-                $actionArray
-            );
-            array_push($columnArray, $column);
-            $actionArray = [];
-        }
-    }
-    if (($k + 1) % 3 != 0) {
-        $column = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
-            "帰社時間選択",
-            "何時に帰社しますか?",
-            "https://" . $_SERVER["HTTP_HOST"] .  "/imgs/template.png",
-            $actionArray
-        );
-        array_push($columnArray, $column);
-    }
-    replyCarouselTemplate($bot, $event->getReplyToken(),"帰社報告", $columnArray);
+    // $target_hh = array("9","10","11","12","13","14","15","16","17","18","19","20","21","22");
+    // $target_mm = array("00","15","30","45");
+    // $columnArray = [];
+    // $actionArray = [];
+    // foreach ($target_hh as $k => $v) {
+    //     array_push($actionArray, new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder (
+    //         $v, $v));
+    //     if (($k + 1) % 3 == 0) {
+    //         $column = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
+    //             "帰社時間選択",
+    //             "何時に帰社しますか?",
+    //             "https://" . $_SERVER["HTTP_HOST"] .  "/imgs/template.png",
+    //             $actionArray
+    //         );
+    //         array_push($columnArray, $column);
+    //         $actionArray = [];
+    //     }
+    // }
+    // if (($k + 1) % 3 != 0) {
+    //     $column = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
+    //         "帰社時間選択",
+    //         "何時に帰社しますか?",
+    //         "https://" . $_SERVER["HTTP_HOST"] .  "/imgs/template.png",
+    //         $actionArray
+    //     );
+    //     array_push($columnArray, $column);
+    // }
+    // replyCarouselTemplate($bot, $event->getReplyToken(),"帰社報告", $columnArray);
     
     // 直帰処理
     
@@ -114,21 +114,21 @@ foreach ($events as $event) {
     
     // 「いいえ」処理
 
-    // for($i = 0; $i < 5; $i++) {
-    //     $actionArray = array();
-    //     array_push($actionArray, new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder (
-    //         "ボタン" . $i . "-" . 1, "c-" . $i . "-" . 1));
-    //     array_push($actionArray, new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder (
-    //         "ボタン" . $i . "-" . 2, "c-" . $i . "-" . 2));
-    //     array_push($actionArray, new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder (
-    //         "ボタン" . $i . "-" . 3, "c-" . $i . "-" . 3));
-    //     $column = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
-    //         ($i + 1) . "日後の天気",
-    //         "晴れ",
-    //         "https://" . $_SERVER["HTTP_HOST"] .  "/imgs/template.jpg",
-    //         $actionArray
-    //     );
-    //     array_push($columnArray, $column);
-    // }
-    // replyCarouselTemplate($bot, $event->getReplyToken(),"今後の天気予報", $columnArray);
+    for($i = 0; $i < 5; $i++) {
+        $actionArray = array();
+        array_push($actionArray, new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder (
+            "ボタン" . $i . "-" . 1, "c-" . $i . "-" . 1));
+        array_push($actionArray, new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder (
+            "ボタン" . $i . "-" . 2, "c-" . $i . "-" . 2));
+        array_push($actionArray, new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder (
+            "ボタン" . $i . "-" . 3, "c-" . $i . "-" . 3));
+        $column = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
+            ($i + 1) . "日後の天気",
+            "晴れ",
+            "https://" . $_SERVER["HTTP_HOST"] .  "/imgs/template.png",
+            $actionArray
+        );
+        array_push($columnArray, $column);
+    }
+    replyCarouselTemplate($bot, $event->getReplyToken(),"今後の天気予報", $columnArray);
 }
