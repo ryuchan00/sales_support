@@ -100,6 +100,9 @@ foreach ($events as $event) {
             error_log("process 2");
         }
     }
+    foreach($columnArray as $k => $v) {
+        error_log($k . ":::" . $v);
+    }
     replyCarouselTemplate($bot, $event->getReplyToken(),"帰社報告", $columnArray);
     // if ((count($target_hh)) % 3 != 0) {
     //     $column = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
