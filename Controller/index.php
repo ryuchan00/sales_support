@@ -42,7 +42,6 @@ foreach ($events as $event) {
     $profile = $bot->getProfile($event->getUserId())->getJSONDecodedBody();
     $pdo = new Connect;
     $sql = 'insert into public.user (user_line_id, name, comment, picture_url) values (:user_line_id, :name, :comment, :picture_url)';
-    // $sql = "insert into public.user (user_line_id, name) values (:user_line_id, :name)";
     $stmt = $pdo->pdo()->prepare($sql);
     $stmt->bindValue(":user_line_id", $profile["userId"]);
     $stmt->bindValue(":name", $profile["displayName"]);
@@ -75,7 +74,10 @@ foreach ($events as $event) {
     //      new LINE\LINEBot\TemplateActionBuilder\UriTemplateActionBuilder (
     //          "Webで見る", "https://ct2.cservice.jp/res5.3t_demo/twilio_demo2/manage/index.php?mode=re_auth")
     //  );
+    
+    // 友達追加処理
 
+    // 帰社処理
     // am 9:00 ~ pm 22:45
     $target_hh = array("9","10","11","12","13","14","15","16","17","18","19","20","21","22");
     $target_mm = array("00","15","30","45");
@@ -105,6 +107,12 @@ foreach ($events as $event) {
         array_push($columnArray, $column);
     }
     replyCarouselTemplate($bot, $event->getReplyToken(),"帰社報告", $columnArray);
+    
+    // 直帰処理
+    
+    // 「はい」処理
+    
+    // 「いいえ」処理
 
     // for($i = 0; $i < 5; $i++) {
     //     $actionArray = array();
