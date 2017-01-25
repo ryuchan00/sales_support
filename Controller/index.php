@@ -84,12 +84,11 @@ foreach ($events as $event) {
     foreach ($target_hh as $k => $v) {
         array_push($actionArray, new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder (
             $v, $v));
-            error_log($k . ":" . $v);
         if (($k + 1) % 3 == 0) {
             $column = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
                 "帰社時間選択",
                 "何時に帰社しますか?",
-                "https://" . $_SERVER["HTTP_HOST"] .  "/imgs/template.jpg",
+                "https://" . $_SERVER["HTTP_HOST"] .  "/imgs/template.png",
                 $actionArray
             );
             array_push($columnArray, $column);
@@ -105,7 +104,6 @@ foreach ($events as $event) {
         );
         array_push($columnArray, $column);
     }
-    error_log(var_dump($columnArray));
     replyCarouselTemplate($bot, $event->getReplyToken(),"帰社報告", $columnArray);
 
     // for($i = 0; $i < 5; $i++) {
