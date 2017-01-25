@@ -86,7 +86,6 @@ foreach ($events as $event) {
     foreach ($target_hh as $k => $v) {
         array_push($actionArray, new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder (
             $v, $v));
-        error_log("process 1");
         if ((($k + 1) % 3 == 0) || (($k + 1) == (count($target_hh)))) {
             $picture_num = (($k + 1) / 3);
             $column = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
@@ -97,11 +96,9 @@ foreach ($events as $event) {
             );
             array_push($columnArray, $column);
             $actionArray = array();
-            error_log("process 2");
         }
     }
     replyCarouselTemplate($bot, $event->getReplyToken(),"帰社報告", $columnArray);
-    error_log("process 3");
 
     // 直帰処理
 

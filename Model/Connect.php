@@ -25,6 +25,7 @@ class Connect
         $items = $this->plural($sql, $profile["userId"]);
         error_log(var_dump($items));
         if (empty($items)) {
+            error_log("throw not empty");
             $sql = 'insert into public.user (user_line_id, name, comment, picture_url) values (:user_line_id, :name, :comment, :picture_url)';
             $stmt = $this->pdo()->prepare($sql);
             $stmt->bindValue(":user_line_id", $profile["userId"]);
@@ -38,6 +39,7 @@ class Connect
                error_log('データの追加に失敗しました');
             }
         }
+        error_log("end of method");
     }
 
     //SELECT文のときに使用する関数。
