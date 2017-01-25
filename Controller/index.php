@@ -83,7 +83,7 @@ foreach ($events as $event) {
     $actionArray = [];
     foreach ($target_hh as $k => $v) {
         array_push($actionArray, new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder (
-            "a"));
+            $v, $v));
             error_log($k . ":" . $v);
         if (($k + 1) % 3 == 0) {
             $column = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
