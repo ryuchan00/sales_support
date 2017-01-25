@@ -41,18 +41,16 @@ foreach ($events as $event) {
 //$message = $profile["displayName"] . "さん、ランダムでスタンプで返答します。";
     $profile = $bot->getProfile($event->getUserId())->getJSONDecodedBody();
     $pdo = new Connect;
-    $sql = 'insert into public.user (user_line_id, name, comment, picture_url) values (:user_line_id, :name, :comment, :picture_url)';
-    $stmt = $pdo->pdo()->prepare($sql);
-    $stmt->bindValue(":user_line_id", $profile["userId"]);
-    $stmt->bindValue(":name", $profile["displayName"]);
-    $stmt->bindValue(":comment", $profile["statusMessage"]);
-    $stmt->bindValue(":picture_url", $profile["pictureUrl"]);
-    $flag = $stmt->execute();
-    if ($flag){
-       error_log('データの追加に成功しました');
-    }else{
-       error_log('データの追加に失敗しました');
-    }
+    $stmt = $pdo->registerProfile($profile);
+    // $sql = 'insert into public.user (user_line_id, name, comment, picture_url) values (:user_line_id, :name, :comment, :picture_url)';
+    // $stmt = $pdo->pdo()->prepare($sql);
+    // $stmt->bindValue(":user_line_id", $profile["userId"]);
+    // $stmt->bindValue(":name", $profile["displayName"]);
+    // $stmt->bindValue(":comment", $profile["statusMessage"]);
+    // $stmt->bindValue(":picture_url", $profile["pictureUrl"]);
+    // $flag = $stmt->execute();
+    //
+
 //$bot->replyMessage($event->getReplyToken(),
 //  (new \LINE\LINEBot\MessageBuilder\MultiMessageBuilder())
 //    ->add(new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($message))
@@ -92,7 +90,7 @@ foreach ($events as $event) {
         if ((($k + 1) % 3 == 0) || (($k + 1) == (count($target_hh)))) {
             $picture_num = (($k + 1) / 3);
             $column = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
-                "帰社時間選択",
+                "時選択",
                 "何時に帰社しますか?",
                 "https://" . $_SERVER["HTTP_HOST"] .  "/imgs/" . $picture_num . ".png",
                 $actionArray
