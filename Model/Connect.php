@@ -22,7 +22,7 @@ class Connect
     {
         $sql = "SELECT * FROM public.user WHERE user_line_id=:user_line_id";
         // $hoge = $this->pdo();
-        $items = plural($sql, $profile["userId"]);
+        $items = $this->plural($sql, $profile["userId"]);
         if (empty($items)) {
             $sql = 'insert into public.user (user_line_id, name, comment, picture_url) values (:user_line_id, :name, :comment, :picture_url)';
             $stmt = $this->pdo()->prepare($sql);
