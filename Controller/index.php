@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../Model/PDO.php';
+require_once __DIR__ . '/../Model/Connect.php';
 require_once __DIR__ . '/../Model/edit_message.php';
 
 $httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient(getenv('CHANNEL_ACCESS_TOKEN'));
@@ -74,8 +74,8 @@ foreach ($events as $event) {
     //      new LINE\LINEBot\TemplateActionBuilder\UriTemplateActionBuilder (
     //          "Webで見る", "https://ct2.cservice.jp/res5.3t_demo/twilio_demo2/manage/index.php?mode=re_auth")
     //  );
-    
-    
+
+
     // 友達追加処理
 
     // 帰社処理
@@ -90,10 +90,11 @@ foreach ($events as $event) {
             $v, $v));
         error_log("process 1");
         if ((($k + 1) % 3 == 0) || (($k + 1) == (count($target_hh)))) {
+            $picture_num = (($k + 1) / 3 +1);
             $column = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
                 "帰社時間選択",
                 "何時に帰社しますか?",
-                "https://" . $_SERVER["HTTP_HOST"] .  "/imgs/template.png",
+                "https://" . $_SERVER["HTTP_HOST"] .  "/imgs/" . $picture_num . ".png",
                 $actionArray
             );
             array_push($columnArray, $column);
@@ -105,11 +106,11 @@ foreach ($events as $event) {
     error_log("process 3");
 
     // 直帰処理
-    
+
     // 「はい」処理
-    
+
     // 「いいえ」処理
-    
+
     // $columnArray = array();
     // for($i = 0; $i < 5; $i++) {
     //     $actionArray = array();

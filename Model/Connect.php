@@ -17,6 +17,15 @@ class Connect
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
         return $pdo;
     }
+
+    function registerProfile($profile)
+    {
+        $hoge=$this->pdo();
+        $stmt=$hoge->query($sql);
+        $items=$stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $items;
+    }
+
     //SELECT文のときに使用する関数。
     function select($sql)
     {
