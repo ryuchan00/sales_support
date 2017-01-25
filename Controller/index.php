@@ -79,7 +79,7 @@ foreach ($events as $event) {
 
     // 帰社処理
     // am 9:00 ~ pm 22:45
-    $target_hh = array("9","10","11","12");
+    $target_hh = array("9","10","11");
     // $target_hh = array("9","10","11","12","13","14","15","16","17","18","19","20","21","22");
     $target_mm = array("00","15","30","45");
     $columnArray = array();
@@ -99,9 +99,6 @@ foreach ($events as $event) {
             $actionArray = array();
             error_log("process 2");
         }
-    }
-    foreach($columnArray as $k => $v) {
-        error_log($k . ":::" . $v);
     }
     replyCarouselTemplate($bot, $event->getReplyToken(),"帰社報告", $columnArray);
     // if ((count($target_hh)) % 3 != 0) {
