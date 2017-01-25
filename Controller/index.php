@@ -101,7 +101,7 @@ foreach ($events as $event) {
         $column = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
             "帰社時間選択",
             "何時に帰社しますか?",
-            "https://" . $_SERVER["HTTP_HOST"] .  "/imgs/template.jpg",
+            "https://" . $_SERVER["HTTP_HOST"] .  "/imgs/template.png",
             $actionArray
         );
         array_push($columnArray, $column);
