@@ -41,7 +41,7 @@ foreach ($events as $event) {
 //$message = $profile["displayName"] . "さん、ランダムでスタンプで返答します。";
     $profile = $bot->getProfile($event->getUserId())->getJSONDecodedBody();
     $pdo = new Connect;
-    $stmt = $pdo->registerProfile($profile);
+    $pdo->registerProfile($profile);
     // $sql = 'insert into public.user (user_line_id, name, comment, picture_url) values (:user_line_id, :name, :comment, :picture_url)';
     // $stmt = $pdo->pdo()->prepare($sql);
     // $stmt->bindValue(":user_line_id", $profile["userId"]);
