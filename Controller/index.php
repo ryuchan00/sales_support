@@ -101,6 +101,7 @@ foreach ($events as $event) {
         }
     }
     replyCarouselTemplate($bot, $event->getReplyToken(),"帰社報告", $columnArray);
+    error_log("process 3");
     // if ((count($target_hh)) % 3 != 0) {
     //     $column = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
     //         "帰社時間選択",
