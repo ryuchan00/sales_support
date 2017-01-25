@@ -84,6 +84,7 @@ foreach ($events as $event) {
     foreach ($target_hh as $k => $v) {
         array_push($actionArray, new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder (
             "a"));
+            error_log($k . ":" . $v);
         if (($k + 1) % 3 == 0) {
             $column = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
                 "帰社時間選択",
@@ -92,7 +93,7 @@ foreach ($events as $event) {
                 $actionArray
             );
             array_push($columnArray, $column);
-            $actionArray = array();
+            $actionArray = [];
         }
     }
     if (($k + 1) % 3 != 0) {
@@ -104,6 +105,7 @@ foreach ($events as $event) {
         );
         array_push($columnArray, $column);
     }
+    error_log(var_dump($columnArray));
     replyCarouselTemplate($bot, $event->getReplyToken(),"帰社報告", $columnArray);
 
     // for($i = 0; $i < 5; $i++) {
