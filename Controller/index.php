@@ -126,5 +126,21 @@ foreach ($events as $event) {
         );
         array_push($columnArray, $column);
     }
+    for($i = 0; $i < 1; $i++) {
+        $actionArray = array();
+        array_push($actionArray, new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder (
+            "ボタン" . $i . "-" . 1, "c-" . $i . "-" . 1));
+        array_push($actionArray, new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder (
+            "ボタン" . $i . "-" . 2, "c-" . $i . "-" . 2));
+        // array_push($actionArray, new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder (
+        //     "ボタン" . $i . "-" . 3, "c-" . $i . "-" . 3));
+        $column = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
+            ($i + 1) . "日後の天気",
+            "晴れ",
+            "https://" . $_SERVER["HTTP_HOST"] .  "/imgs/template.png",
+            $actionArray
+        );
+        array_push($columnArray, $column);
+    }
     replyCarouselTemplate($bot, $event->getReplyToken(),"今後の天気予報", $columnArray);
 }
