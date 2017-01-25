@@ -126,6 +126,7 @@ foreach ($events as $event) {
         );
         array_push($columnArray, $column);
     }
+    
     for($i = 0; $i < 1; $i++) {
         $actionArray = array();
         array_push($actionArray, new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder (
