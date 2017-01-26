@@ -20,28 +20,28 @@ class Connect
 
     function registerProfile($profile)
     {
-    //     $sql = "SELECT * FROM public.user WHERE user_line_id=':id'";
-    //     // $hoge = $this->pdo();
-    //     $items = $this->plural($sql, $profile["userId"]);
-    //     error_log($profile["userId"]);
-    //     if (empty($items['user_line_id'])) {
-    //         error_log("throw empty");
-    //         $sql = 'insert into public.user (user_line_id, name, comment, picture_url) values (:user_line_id, :name, :comment, :picture_url)';
-    //         $stmt = $this->pdo()->prepare($sql);
-    //         $stmt->bindValue(":user_line_id", $profile["userId"]);
-    //         $stmt->bindValue(":name", $profile["displayName"]);
-    //         $stmt->bindValue(":comment", $profile["statusMessage"]);
-    //         $stmt->bindValue(":picture_url", $profile["pictureUrl"]);
-    //         $flag = $stmt->execute();
-    //         if ($flag){
-    //            error_log('データの追加に成功しました');
-    //         }else{
-    //            error_log('データの追加に失敗しました');
-    //         }
-    //     } else {
-    //         error_log("throw not empty");
-    //     }
-    //     error_log("end of method");
+        $sql = "SELECT * FROM public.user WHERE user_line_id=:id";
+        // $hoge = $this->pdo();
+        $items = $this->plural($sql, $profile["userId"]);
+        error_log($profile["userId"]);
+        if (empty($items)) {
+            error_log("throw empty");
+            $sql = 'insert into public.user (user_line_id, name, comment, picture_url) values (:user_line_id, :name, :comment, :picture_url)';
+            $stmt = $this->pdo()->prepare($sql);
+            $stmt->bindValue(":user_line_id", $profile["userId"]);
+            $stmt->bindValue(":name", $profile["displayName"]);
+            $stmt->bindValue(":comment", $profile["statusMessage"]);
+            $stmt->bindValue(":picture_url", $profile["pictureUrl"]);
+            $flag = $stmt->execute();
+            if ($flag){
+               error_log('データの追加に成功しました');
+            }else{
+               error_log('データの追加に失敗しました');
+            }
+        } else {
+            error_log("throw not empty");
+        }
+        error_log("end of method");
     }
 
     //SELECT文のときに使用する関数。
