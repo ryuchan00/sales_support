@@ -25,7 +25,7 @@ class Connect
         $items = $this->plural($sql, $profile["userId"]);
         error_log($profile["userId"]);
         foreach ($items as $k => $v) {
-            error_log($k .":" .$v)
+            error_log($k .":" .$v);
         }
         if (empty($items)) {
             error_log("throw empty");
