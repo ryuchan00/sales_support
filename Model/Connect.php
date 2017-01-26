@@ -24,6 +24,9 @@ class Connect
         // $hoge = $this->pdo();
         $items = $this->plural($sql, $profile["userId"]);
         error_log($profile["userId"]);
+        foreach ($items as $k => $v) {
+            error_log($k .":" .$v)
+        }
         if (empty($items)) {
             error_log("throw empty");
             $sql = 'insert into public.user (user_line_id, name, comment, picture_url) values (:user_line_id, :name, :comment, :picture_url)';
