@@ -2,7 +2,7 @@
 
 class Connect
 {
-    function pdo()
+    public function pdo()
     {
         // charcterの指定をするとエラーになる
         $url = parse_url(getenv('DATABASE_URL'));
@@ -18,7 +18,7 @@ class Connect
         return $pdo;
     }
 
-    function registerProfile($profile)
+    public function registerProfile($profile)
     {
         $sql = "SELECT * FROM public.user WHERE user_line_id=:id";
         // $hoge = $this->pdo();
@@ -27,7 +27,6 @@ class Connect
         foreach ($items as $k => $v) {
             error_log($k .":" .$v);
         }
-        error_log(printf($items));
         if (count($items) == 0) {
             error_log("throw empty");
             $sql = 'insert into public.user (user_line_id, name, comment, picture_url) values (:user_line_id, :name, :comment, :picture_url)';
@@ -49,7 +48,7 @@ class Connect
     }
 
     //SELECT文のときに使用する関数。
-    function select($sql)
+    public function select($sql)
     {
         $hoge=$this->pdo();
         $stmt=$hoge->query($sql);
@@ -57,12 +56,20 @@ class Connect
         return $items;
     }
     //SELECT,INSERT,UPDATE,DELETE文の時に使用する関数。
-    function plural($sql,$item)
+    public function plural($sql,$item)
     {
         error_log('item'.$item);
         $hoge=$this->pdo();
         $stmt=$hoge->prepare($sql);
-        $stmt->execute(array(':id'=>$item));//sql文のVALUES等の値が?の場合は$itemでもいい。
+        $stmt = $this->pdo()->prepare($sql);
+        $stmt->bindValue(":id", $item);
+        $flg = $stmt->execute();
+        if ($flag){
+           error_log('データの選択に成功しました');
+        }else{
+           error_log('データの選択に失敗しました');
+        }
+        // $stmt->execute(array(':id'=>$item));//sql文のVALUES等の値が?の場合は$itemでもいい。
         // $stmt->execute(array($item));
         error_log($stmt->debugDumpParams());
         return $stmt;
