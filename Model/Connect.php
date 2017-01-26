@@ -20,7 +20,7 @@ class Connect
 
     function registerProfile($profile)
     {
-        $sql = "SELECT * FROM public.user WHERE user_line_id=' :user_line_id '";
+        $sql = "SELECT * FROM public.user WHERE user_line_id=':id'";
         // $hoge = $this->pdo();
         $items = $this->plural($sql, $profile["userId"]);
         error_log($profile["userId"]);
@@ -57,7 +57,7 @@ class Connect
     {
         $hoge=$this->pdo();
         $stmt=$hoge->prepare($sql);
-        $stmt->execute(array(':user_line_id'=>$item));//sql文のVALUES等の値が?の場合は$itemでもいい。
+        $stmt->execute(array(':id'=>$item));//sql文のVALUES等の値が?の場合は$itemでもいい。
         error_log($stmt->debugDumpParams());
         return $stmt;
     }
