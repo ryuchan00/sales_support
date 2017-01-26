@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../Model/PDO.php';
+require_once __DIR__ . '/../Model/Connect.php';
 require_once __DIR__ . '/../Model/edit_message.php';
 
 $httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient(getenv('CHANNEL_ACCESS_TOKEN'));
@@ -41,18 +41,16 @@ foreach ($events as $event) {
 //$message = $profile["displayName"] . "さん、ランダムでスタンプで返答します。";
     $profile = $bot->getProfile($event->getUserId())->getJSONDecodedBody();
     $pdo = new Connect;
-    $sql = 'insert into public.user (user_line_id, name, comment, picture_url) values (:user_line_id, :name, :comment, :picture_url)';
-    $stmt = $pdo->pdo()->prepare($sql);
-    $stmt->bindValue(":user_line_id", $profile["userId"]);
-    $stmt->bindValue(":name", $profile["displayName"]);
-    $stmt->bindValue(":comment", $profile["statusMessage"]);
-    $stmt->bindValue(":picture_url", $profile["pictureUrl"]);
-    $flag = $stmt->execute();
-    if ($flag){
-       error_log('データの追加に成功しました');
-    }else{
-       error_log('データの追加に失敗しました');
-    }
+    $pdo->registerProfile($profile);
+    // $sql = 'insert into public.user (user_line_id, name, comment, picture_url) values (:user_line_id, :name, :comment, :picture_url)';
+    // $stmt = $pdo->pdo()->prepare($sql);
+    // $stmt->bindValue(":user_line_id", $profile["userId"]);
+    // $stmt->bindValue(":name", $profile["displayName"]);
+    // $stmt->bindValue(":comment", $profile["statusMessage"]);
+    // $stmt->bindValue(":picture_url", $profile["pictureUrl"]);
+    // $flag = $stmt->execute();
+    //
+
 //$bot->replyMessage($event->getReplyToken(),
 //  (new \LINE\LINEBot\MessageBuilder\MultiMessageBuilder())
 //    ->add(new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($message))
@@ -74,8 +72,8 @@ foreach ($events as $event) {
     //      new LINE\LINEBot\TemplateActionBuilder\UriTemplateActionBuilder (
     //          "Webで見る", "https://ct2.cservice.jp/res5.3t_demo/twilio_demo2/manage/index.php?mode=re_auth")
     //  );
-    
-    
+
+
     // 友達追加処理
 
     // 帰社処理
@@ -88,28 +86,26 @@ foreach ($events as $event) {
     foreach ($target_hh as $k => $v) {
         array_push($actionArray, new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder (
             $v, $v));
-        error_log("process 1");
         if ((($k + 1) % 3 == 0) || (($k + 1) == (count($target_hh)))) {
+            $picture_num = (($k + 1) / 3);
             $column = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
                 "時選択",
                 "何時に帰社しますか?",
-                "https://" . $_SERVER["HTTP_HOST"] .  "/imgs/template.png",
+                "https://" . $_SERVER["HTTP_HOST"] .  "/imgs/" . $picture_num . ".png",
                 $actionArray
             );
             array_push($columnArray, $column);
             $actionArray = array();
-            error_log("process 2");
         }
     }
     replyCarouselTemplate($bot, $event->getReplyToken(),"帰社報告", $columnArray);
-    error_log("process 3");
 
     // 直帰処理
-    
+
     // 「はい」処理
-    
+
     // 「いいえ」処理
-    
+
     // $columnArray = array();
     // for($i = 0; $i < 5; $i++) {
     //     $actionArray = array();
