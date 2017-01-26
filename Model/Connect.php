@@ -27,6 +27,7 @@ class Connect
         foreach ($items as $k => $v) {
             error_log($k .":" .$v);
         }
+        error_log(printf($items));
         if (count($items) == 0) {
             error_log("throw empty");
             $sql = 'insert into public.user (user_line_id, name, comment, picture_url) values (:user_line_id, :name, :comment, :picture_url)';
