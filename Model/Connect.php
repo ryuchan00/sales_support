@@ -55,6 +55,7 @@ class Connect
     //SELECT,INSERT,UPDATE,DELETE文の時に使用する関数。
     function plural($sql,$item)
     {
+        error_log('item'.$item);
         $hoge=$this->pdo();
         $stmt=$hoge->prepare($sql);
         $stmt->execute(array(':id'=>$item));//sql文のVALUES等の値が?の場合は$itemでもいい。
