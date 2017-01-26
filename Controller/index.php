@@ -84,9 +84,9 @@ foreach ($events as $event) {
     $columnArray = [];
     $actionArray = [];
     foreach ($target_hh as $k => $v) {
-        array_push($actionArray, new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder (
+        array_push($actionArray, new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder (
             $v, $v));
-        if ((($k + 1) % 3 == 0) || (($k + 1) == (count($target_hh)))) {
+        if ((($k + 1) % 3 == 0)) {
             $picture_num = (($k + 1) / 3);
             $column = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
                 "時選択",
