@@ -41,7 +41,7 @@ class Connect
             }else{
                error_log('データの追加に失敗しました');
             }
-        } else 
+        } else {
             error_log("throw not empty");
         }
         error_log("end of method");
