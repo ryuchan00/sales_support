@@ -41,12 +41,12 @@ foreach ($events as $event) {
 //$message = $profile["displayName"] . "さん、ランダムでスタンプで返答します。";
     $profile = $bot->getProfile($event->getUserId())->getJSONDecodedBody();
     $pdo = new Connect;
-    $sql = "SELECT * FROM public.user WHERE user_line_id=?";
+    $sql = "SELECT * FROM public.user WHERE user_line_id=:id";
     $items=$pdo->plural($sql,$profile["userId"]);
     foreach ($items as $v) {
         error_log($v['user_line_id']);
     }
-    $pdo->registerProfile($profile);
+    // $pdo->registerProfile($profile);
     // $sql = 'insert into public.user (user_line_id, name, comment, picture_url) values (:user_line_id, :name, :comment, :picture_url)';
     // $stmt = $pdo->pdo()->prepare($sql);
     // $stmt->bindValue(":user_line_id", $profile["userId"]);
