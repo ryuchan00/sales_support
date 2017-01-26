@@ -42,7 +42,7 @@ class Connect
     //         error_log("throw not empty");
     //     }
     //     error_log("end of method");
-    // }
+    }
 
     //SELECT文のときに使用する関数。
     function select($sql)
@@ -64,5 +64,3 @@ class Connect
         return $stmt;
     }
 }
-
-?>
