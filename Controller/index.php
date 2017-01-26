@@ -43,7 +43,9 @@ foreach ($events as $event) {
     $pdo = new Connect;
     $sql = "SELECT * FROM public.user WHERE user_line_id=\':user_line_id\'";
     $items=$pdo->plural($sql,$profile["userId"]);
-    error_log($items['user_line_id']);
+    foreach ($items as $v) {
+        error_log($v['user_line_id']);
+    }
     $pdo->registerProfile($profile);
     // $sql = 'insert into public.user (user_line_id, name, comment, picture_url) values (:user_line_id, :name, :comment, :picture_url)';
     // $stmt = $pdo->pdo()->prepare($sql);
