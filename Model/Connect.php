@@ -27,7 +27,7 @@ class Connect
         foreach ($items as $k => $v) {
             error_log($k .":" .$v);
         }
-        if (count($items) == 0) {
+        if ($items == false) {
             error_log("throw empty");
             $sql = 'insert into public.user (user_line_id, name, comment, picture_url) values (:user_line_id, :name, :comment, :picture_url)';
             $stmt = $this->pdo()->prepare($sql);
@@ -63,7 +63,7 @@ class Connect
         $stmt=$hoge->prepare($sql);
         $stmt = $this->pdo()->prepare($sql);
         $stmt->bindValue(":id", $item);
-        $flg = $stmt->execute();
+        $flag = $stmt->execute();
         if ($flag){
            error_log('データの選択に成功しました');
         }else{
@@ -72,6 +72,6 @@ class Connect
         // $stmt->execute(array(':id'=>$item));//sql文のVALUES等の値が?の場合は$itemでもいい。
         // $stmt->execute(array($item));
         error_log($stmt->debugDumpParams());
-        return $stmt;
+        return $flag;
     }
 }
