@@ -20,7 +20,8 @@ class Connect
 
     public function registerProfile($profile)
     {
-        $sql = "SELECT * FROM public.user WHERE user_line_id=:id";
+        // $sql = "SELECT user_line_id, name FROM public.user WHERE user_line_id=:id";
+        $sql = "SELECT user_line_id, name FROM public.user WHERE user_line_id=U334d5960d3ba418048fd5c8814c27de3";
         // $hoge = $this->pdo();
         $items = $this->plural($sql, $profile["userId"]);
         error_log($profile["userId"]);
