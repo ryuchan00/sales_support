@@ -21,28 +21,37 @@ class Connect
     public function registerProfile($profile)
     {
         // $sql = "SELECT user_line_id, name FROM public.user WHERE user_line_id=:id";
-        $sql = "SELECT user_line_id, name FROM public.user WHERE user_line_id=U334d5960d3ba418048fd5c8814c27de3";
-        // $hoge = $this->pdo();
-        $items = $this->plural($sql, $profile["userId"]);
-        error_log($profile["userId"]);
-        if (!empty($items)) {
-            error_log("throw empty");
-            $sql = 'insert into public.user (user_line_id, name, comment, picture_url) values (:user_line_id, :name, :comment, :picture_url)';
-            $stmt = $this->pdo()->prepare($sql);
-            $stmt->bindValue(":user_line_id", $profile["userId"]);
-            $stmt->bindValue(":name", $profile["displayName"]);
-            $stmt->bindValue(":comment", $profile["statusMessage"]);
-            $stmt->bindValue(":picture_url", $profile["pictureUrl"]);
-            $flag = $stmt->execute();
-            if ($flag){
-               error_log('データの追加に成功しました');
-            }else{
-               error_log('データの追加に失敗しました');
-            }
-        } else {
-            error_log("throw not empty");
+        $sql = "SELECT user_line_id, name FROM public.user WHERE user_line_id='U334d5960d3ba418048fd5c8814c27de3'";
+        $statement = $this->pdo()->query($sql);
+        // 結果の取得
+        $members = array();
+        foreach ($statement as $row) {
+            $members[] = $row;
+            error_log($row);
         }
-        error_log("end of method");
+        var_dump($members);
+
+        // $hoge = $this->pdo();
+        // $items = $this->plural($sql, $profile["userId"]);
+        // error_log($profile["userId"]);
+        // if (!empty($items)) {
+        //     error_log("throw empty");
+        //     $sql = 'insert into public.user (user_line_id, name, comment, picture_url) values (:user_line_id, :name, :comment, :picture_url)';
+        //     $stmt = $this->pdo()->prepare($sql);
+        //     $stmt->bindValue(":user_line_id", $profile["userId"]);
+        //     $stmt->bindValue(":name", $profile["displayName"]);
+        //     $stmt->bindValue(":comment", $profile["statusMessage"]);
+        //     $stmt->bindValue(":picture_url", $profile["pictureUrl"]);
+        //     $flag = $stmt->execute();
+        //     if ($flag){
+        //        error_log('データの追加に成功しました');
+        //     }else{
+        //        error_log('データの追加に失敗しました');
+        //     }
+        // } else {
+        //     error_log("throw not empty");
+        // }
+        // error_log("end of method");
     }
 
     //SELECT文のときに使用する関数。
