@@ -33,8 +33,8 @@
 
 	// Specify the path to the database dump utilities for this server.
 	// You can set these to '' if no dumper is available.
-	$conf['servers'][0]['pg_dump_path'] = '/usr/bin/pg_dump';
-	$conf['servers'][0]['pg_dumpall_path'] = '/usr/bin/pg_dumpall';
+	$conf['servers'][0]['pg_dump_path'] = '/usr/lib/postgresql/9.6/bin/pg_dump';
+	$conf['servers'][0]['pg_dumpall_path'] = '/usr/lib/postgresql/9.6/bin/pg_dumpall';
 
 	// Example for a second server (PostgreSQL for Windows)
 	//$conf['servers'][1]['desc'] = 'Test Server';
