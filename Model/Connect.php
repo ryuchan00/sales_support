@@ -22,8 +22,10 @@ class Connect
     {
         // $sql = "SELECT user_line_id, name FROM public.user WHERE user_line_id=:id";
         $sql = "select user_line_id, name from public.user where user_line_id=:id";
-        $stmt = $this->pdo()->query($sql);
-        $stmt->bindValue(":id", $profile["userId"]);
+        // $stmt = $this->pdo()->query($sql);
+            $stmt = $this->pdo()->prepare($sql);
+            $stmt->bindValue(":id", $profile["userId"]);
+            $flag = $stmt->execute();
         while($result = $stmt->fetch(PDO::FETCH_ASSOC)){
             error_log($result['user_line_id']);
             error_log($result['name']);
