@@ -41,8 +41,8 @@ foreach ($events as $event) {
 //$message = $profile["displayName"] . "さん、ランダムでスタンプで返答します。";
     $profile = $bot->getProfile($event->getUserId())->getJSONDecodedBody();
     $pdo = new Connect;
-    $sql = "SELECT * FROM public.user WHERE user_line_id=:id";
-    $items=$pdo->plural($sql,$profile["userId"]);
+    // $sql = "SELECT * FROM public.user WHERE user_line_id=:id";
+    // $items=$pdo->plural($sql,$profile["userId"]);
     foreach ($items as $v) {
         error_log($v['user_line_id']);
     }

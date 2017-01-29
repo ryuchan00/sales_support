@@ -21,15 +21,19 @@ class Connect
     public function registerProfile($profile)
     {
         // $sql = "SELECT user_line_id, name FROM public.user WHERE user_line_id=:id";
-        $sql = "SELECT user_line_id, name FROM public.user WHERE user_line_id='U334d5960d3ba418048fd5c8814c27de3'";
-        $statement = $this->pdo()->query($sql);
-        // 結果の取得
-        $members = array();
-        foreach ($statement as $row) {
-            $members[] = $row;
-            error_log($row);
+        $sql = "select user_line_id, name from public.user where user_line_id='U334d5960d3ba418048fd5c8814c27de3'";
+        $stmt = $this->pdo()->query($sql);
+        while($result = $stmt->fetch(PDO::FETCH_ASSOC)){
+            error_log($result['user_line_id']);
+            error_log($result['name']);
         }
-        var_dump($members);
+        // 結果の取得
+        // $members = array();
+        // foreach ($statement as $row) {
+        //     $members[] = $row;
+        //     error_log($row);
+        // }
+        // var_dump($members);
 
         // $hoge = $this->pdo();
         // $items = $this->plural($sql, $profile["userId"]);
