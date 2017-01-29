@@ -23,7 +23,7 @@ class Connect
         // $sql = "SELECT user_line_id, name FROM public.user WHERE user_line_id=:id";
         $sql = "select user_line_id, name from public.user where user_line_id='U334d5960d3ba418048fd5c8814c27de3'";
         $stmt = $this->pdo()->query($sql);
-        while($result = $stmt->fetch(PDO::FETCH_ASSOC)){
+        while($result = $stmt->fetch()){
             error_log($result['user_line_id']);
             error_log($result['name']);
         }
