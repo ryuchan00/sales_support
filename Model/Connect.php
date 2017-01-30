@@ -25,10 +25,10 @@ class Connect
         $stmt->bindValue(":user_line_id", $profile["userId"]);
         $flag = $stmt->execute();
 
-        while($result = $stmt->fetch(PDO::FETCH_ASSOC)){
-            error_log($result['user_line_id']);
-            error_log($result['name']);
-        }
+//        while($result = $stmt->fetch(PDO::FETCH_ASSOC)){
+//            error_log($result['user_line_id']);
+//            error_log($result['name']);
+//        }
 
         if ($stmt->fetchColumn() == 0){
             $sql = 'insert into public.user (user_line_id, name, comment, picture_url) values (:user_line_id, :name, :comment, :picture_url)';
