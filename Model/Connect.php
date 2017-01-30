@@ -20,7 +20,7 @@ class Connect
 
     public function registerProfile($profile)
     {
-        $sql = "select user_line_id, name from public.user where user_line_id=:user_line_id";
+        $sql = "select user_line_id, name from public.user where user_line_id='U334d5960d3ba418048fd5c8814c27de3'";
         $stmt = $this->pdo()->prepare($sql);
         $stmt->bindValue(":user_line_id", $profile["userId"]);
 //        $stmt->bindValue(":user_line_id", "U334d5960d3ba418048fd5c8814c27de3");
