@@ -26,9 +26,9 @@ class Connect
 //        $stmt->bindValue(":user_line_id", "U334d5960d3ba418048fd5c8814c27de3");
         $flag = $stmt->execute();
         if ($flag){
-            echo('データの選択に成功しました');
+            error_log('データの選択に成功しました');
         }else{
-            echo('データの選択に失敗しました');
+            error_log('データの選択に失敗しました');
         }
 
 //        while($result = $stmt->fetch(PDO::FETCH_ASSOC)){
