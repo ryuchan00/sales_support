@@ -20,7 +20,7 @@ class Connect
 
     public function registerProfile($profile)
     {
-        $sql = "select user_line_id, name from public.user where user_line_id=:user_line_id";
+        $sql = "select user_line_id, name from public.user where user_line_id=':user_line_id'";
         $stmt = $this->pdo()->prepare($sql);
         $stmt->bindValue(":user_line_id", $profile["userId"]);
         $flag = $stmt->execute();
@@ -31,7 +31,7 @@ class Connect
 //        }
 
         if ($stmt->fetchColumn() == 0){
-            $sql = 'insert into public.user (user_line_id, name, comment, picture_url) values (:user_line_id, :name, :comment, :picture_url)';
+            $sql = "insert into public.user (user_line_id, name, comment, picture_url) values (:user_line_id, :name, :comment, :picture_url)";
             $stmt = $this->pdo()->prepare($sql);
             $stmt->bindValue(":user_line_id", $profile["userId"]);
             $stmt->bindValue(":name", $profile["displayName"]);
