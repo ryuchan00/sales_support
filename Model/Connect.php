@@ -30,7 +30,7 @@ class Connect
             error_log($result['name']);
         }
 
-        if (($flag) && ($stmt->fetchColumn() == 0)){
+        if ($stmt->fetchColumn() == 0){
             $sql = 'insert into public.user (user_line_id, name, comment, picture_url) values (:user_line_id, :name, :comment, :picture_url)';
             $stmt = $this->pdo()->prepare($sql);
             $stmt->bindValue(":user_line_id", $profile["userId"]);
