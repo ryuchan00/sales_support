@@ -25,10 +25,11 @@ try{
     $dbh->query('SET NAMES sjis');
 
     $serch = "test";
-    $sql = "select id, text from test where text='{$serch}' and id=1";
+    $sql = "select id, text from test where text=:serch and id=1";
     // $stmt = $dbh->query($sql);
     $stmt = $dbh->prepare($sql);
-    $stmt->execute();
+    $stmt->bindValue(":serch", $serch);
+    $flag = $stmt->execute();
 
 //    $sql = "select FOUND_ROWS()";
 //    $count = $dbh->query($sql);
