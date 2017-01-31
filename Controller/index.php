@@ -8,15 +8,15 @@ $bot = new \LINE\LINEBot($httpClient, ['channelSecret' => getenv('CHANNEL_SECRET
 
 $signature = $_SERVER["HTTP_" . \LINE\LINEBot\Constant\HTTPHeader::LINE_SIGNATURE];
 try {
-  $events = $bot->parseEventRequest(file_get_contents('php://input'), $signature);
-} catch(\LINE\LINEBot\Exception\InvalidSignatureException $e) {
-    error_log("parseEventRequest failed. InvalidSignatureException => ".var_export($e, true));
-} catch(\LINE\LINEBot\Exception\UnknownEventTypeException $e) {
-    error_log("parseEventRequest failed. UnknownEventTypeException => ".var_export($e, true));
-} catch(\LINE\LINEBot\Exception\UnknownMessageTypeException $e) {
-    error_log("parseEventRequest failed. UnknownMessageTypeException => ".var_export($e, true));
-} catch(\LINE\LINEBot\Exception\InvalidEventRequestException $e) {
-    error_log("parseEventRequest failed. InvalidEventRequestException => ".var_export($e, true));
+    $events = $bot->parseEventRequest(file_get_contents('php://input'), $signature);
+} catch (\LINE\LINEBot\Exception\InvalidSignatureException $e) {
+    error_log("parseEventRequest failed. InvalidSignatureException => " . var_export($e, true));
+} catch (\LINE\LINEBot\Exception\UnknownEventTypeException $e) {
+    error_log("parseEventRequest failed. UnknownEventTypeException => " . var_export($e, true));
+} catch (\LINE\LINEBot\Exception\UnknownMessageTypeException $e) {
+    error_log("parseEventRequest failed. UnknownMessageTypeException => " . var_export($e, true));
+} catch (\LINE\LINEBot\Exception\InvalidEventRequestException $e) {
+    error_log("parseEventRequest failed. InvalidEventRequestException => " . var_export($e, true));
 }
 
 foreach ($events as $event) {
@@ -41,20 +41,7 @@ foreach ($events as $event) {
 //$message = $profile["displayName"] . "さん、ランダムでスタンプで返答します。";
     $profile = $bot->getProfile($event->getUserId())->getJSONDecodedBody();
     $pdo = new Connect;
-    // $sql = "SELECT * FROM public.user WHERE user_line_id=:id";
-    // $items=$pdo->plural($sql,$profile["userId"]);
-    // foreach ($items as $v) {
-    //     error_log($v['user_line_id']);
-    // }
     $pdo->registerProfile($profile);
-    // $sql = 'insert into public.user (user_line_id, name, comment, picture_url) values (:user_line_id, :name, :comment, :picture_url)';
-    // $stmt = $pdo->pdo()->prepare($sql);
-    // $stmt->bindValue(":user_line_id", $profile["userId"]);
-    // $stmt->bindValue(":name", $profile["displayName"]);
-    // $stmt->bindValue(":comment", $profile["statusMessage"]);
-    // $stmt->bindValue(":picture_url", $profile["pictureUrl"]);
-    // $flag = $stmt->execute();
-    //
 
 //$bot->replyMessage($event->getReplyToken(),
 //  (new \LINE\LINEBot\MessageBuilder\MultiMessageBuilder())
@@ -82,28 +69,34 @@ foreach ($events as $event) {
     // 友達追加処理
 
     // 帰社処理
-    // am 9:00 ~ pm 22:45
-    // $target_hh = array("9","10","11","12","13","14");
-    $target_hh = array("9","10","11","12","13","14","15","16","17","18","19","20","21","22","23");
-    $target_mm = array("00","15","30","45");
-    $columnArray = [];
-    $actionArray = [];
-    foreach ($target_hh as $k => $v) {
-        array_push($actionArray, new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder (
-            $v, $v));
-        if ((($k + 1) % 3 == 0)) {
-            $picture_num = (($k + 1) / 3);
-            $column = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
-                "時選択",
-                "何時に帰社しますか?",
-                "https://" . $_SERVER["HTTP_HOST"] .  "/imgs/" . $picture_num . ".png",
-                $actionArray
-            );
-            array_push($columnArray, $column);
-            $actionArray = array();
+    if (($event instanceof \LINE\LINEBot\Event\MessageEvent\TextMessage)) {
+        $post_msg = $event->getText();
+        switch ($post_msg) {
+            case "帰社":
+                // am 9:00 ~ pm 22:45
+                $target_hh = array("9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23");
+                $target_mm = array("00", "15", "30", "45");
+                $columnArray = [];
+                $actionArray = [];
+                foreach ($target_hh as $k => $v) {
+                    array_push($actionArray, new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder (
+                        $v, $v));
+                    if ((($k + 1) % 3 == 0)) {
+                        $picture_num = (($k + 1) / 3);
+                        $column = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
+                            "時選択",
+                            "何時に帰社しますか?",
+                            "https://" . $_SERVER["HTTP_HOST"] . "/imgs/" . $picture_num . ".png",
+                            $actionArray
+                        );
+                        array_push($columnArray, $column);
+                        $actionArray = array();
+                    }
+                }
+                replyCarouselTemplate($bot, $event->getReplyToken(), "帰社報告", $columnArray);
+
         }
     }
-    replyCarouselTemplate($bot, $event->getReplyToken(),"帰社報告", $columnArray);
 
     // 直帰処理
 
