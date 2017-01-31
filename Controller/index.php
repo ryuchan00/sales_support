@@ -105,7 +105,7 @@ foreach ($events as $event) {
                 "user_line_id" => $profile["userId"],
                 "hour" => $display_msg
             ];
-            $flag = plural_h($sql, $item);
+            $flag = $pdo->plural_h($sql, $item);
             replyButtonsTemplate($bot,
                 $event->getReplyToken(),
                 "帰社報告　分選択",
