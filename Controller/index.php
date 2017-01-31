@@ -80,7 +80,7 @@ foreach ($events as $event) {
                 foreach ($target_hh as $k => $v) {
 //                    $display_v = substr($v, 3);
                     array_push($actionArray, new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder (
-                        $v, $v));
+                        substr($v, 2), $v));
                     if ((($k + 1) % 3 == 0)) {
                         $picture_num = (($k + 1) / 3);
                         $column = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
@@ -106,13 +106,13 @@ foreach ($events as $event) {
                 "分選択",
                 "{$postback_msg}時何分に帰社しますか？",
                 new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder (
-                    substr($target_mm[0], 3), $target_mm[0]),
+                    substr($target_mm[0], 2), $target_mm[0]),
                 new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder (
-                    substr($target_mm[1], 3), $target_mm[1]),
+                    substr($target_mm[1], 2), $target_mm[1]),
                 new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder (
-                    substr($target_mm[2], 3), $target_mm[2]),
+                    substr($target_mm[2], 2), $target_mm[2]),
                 new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder (
-                    substr($target_mm[3], 3), $target_mm[3])
+                    substr($target_mm[3], 2), $target_mm[3])
             );
             exit;
         }
