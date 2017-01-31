@@ -78,9 +78,9 @@ foreach ($events as $event) {
                 $columnArray = [];
                 $actionArray = [];
                 foreach ($target_hh as $k => $v) {
-                    $display_v = substr($v, 3);
+//                    $display_v = substr($v, 3);
                     array_push($actionArray, new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder (
-                        $display_v, $v));
+                        ぅv, $v));
                     if ((($k + 1) % 3 == 0)) {
                         $picture_num = (($k + 1) / 3);
                         $column = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
