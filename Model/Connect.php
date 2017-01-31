@@ -51,7 +51,7 @@ class Connect
                 error_log('データの追加に失敗しました');
             }
         } else {
-            error_log('件数あり');
+            error_log('すでに登録実績あり');
         }
     }
 
@@ -69,7 +69,7 @@ class Connect
     {
         $hoge = $this->pdo();
         $stmt = $hoge->prepare($sql);
-        $stmt = $this->pdo()->prepare($sql);
+//        $stmt = $this->pdo()->prepare($sql);
         $stmt->bindValue(":id", $item);
         $flag = $stmt->execute();
         if ($flag) {
