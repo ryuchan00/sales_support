@@ -99,12 +99,19 @@ foreach ($events as $event) {
     if ($event instanceof \LINE\LINEBot\Event\PostbackEvent) {
         $postback_msg = $event->getPostbackData();
         if (in_array($postback_msg, $target_hh)) {
+            $display_msg = substr($postback_msg, 2);
+            $sql = "update public.user set hour=:hour where user_line_id=:user_line_id";
+            $item = [
+                "user_line_id" => $profile["userId"],
+                "hour" => $display_msg
+            ];
+            $flag = plural_h($sql, $item);
             replyButtonsTemplate($bot,
                 $event->getReplyToken(),
                 "帰社報告　分選択",
                 "https://" . $_SERVER["HTTP_HOST"] . "/imgs/hh.png",
                 "分選択",
-                "{$postback_msg}時何分に帰社しますか？",
+                "{$display_msg}時何分に帰社しますか？",
                 new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder (
                     substr($target_mm[0], 2), $target_mm[0]),
                 new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder (

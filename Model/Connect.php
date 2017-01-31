@@ -20,7 +20,7 @@ class Connect
 
     public function registerProfile($profile)
     {
-        $sql = "select user_line_id, name from public.user where user_line_id=:user_line_id";
+        $sql = "select id, user_line_id, name, comment, picture_url from public.user where user_line_id=:user_line_id";
         $stmt = $this->pdo()->prepare($sql);
         $stmt->bindValue(":user_line_id", $profile["userId"], PDO::PARAM_STR);
         $flag = $stmt->execute();
@@ -76,6 +76,24 @@ class Connect
             error_log('データの選択に成功しました');
         } else {
             error_log('データの選択に失敗しました');
+        }
+        // $stmt->execute(array(':id'=>$item));//sql文のVALUES等の値が?の場合は$itemでもいい。
+        // $stmt->execute(array($item));
+        error_log($stmt->debugDumpParams());
+        return $flag;
+    }
+
+    public function plural_h($sql, $item)
+    {
+        $hoge = $this->pdo();
+        $stmt = $hoge->prepare($sql);
+        $stmt->bindValue(":hour", $item['hour']);
+        $stmt->bindValue(":user_line_id", $item['user_line_id']);
+        $flag = $stmt->execute();
+        if ($flag) {
+            error_log('データの更新に成功しました');
+        } else {
+            error_log('データの更新に失敗しました');
         }
         // $stmt->execute(array(':id'=>$item));//sql文のVALUES等の値が?の場合は$itemでもいい。
         // $stmt->execute(array($item));
