@@ -20,10 +20,10 @@ try {
 }
 
 foreach ($events as $event) {
-    if ($event instanceof \LINE\LINEBot\Event\PostbackEvent) {
-        replyTextMessage($bot, $event->getReplyToken(), "Postback受信「" . $event->getPostbackData() . "」");
-        continue;
-    }
+//    if ($event instanceof \LINE\LINEBot\Event\PostbackEvent) {
+//        replyTextMessage($bot, $event->getReplyToken(), "Postback受信「" . $event->getPostbackData() . "」");
+//        continue;
+//    }
 
     // 全イベントを許可する。
     // if (!($event instanceof \LINE\LINEBot\Event\MessageEvent)) {
@@ -68,14 +68,13 @@ foreach ($events as $event) {
 
     // 友達追加処理
 
+    $target_hh = array("9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23");
+    $target_mm = array("00", "15", "30", "45");
     if (($event instanceof \LINE\LINEBot\Event\MessageEvent\TextMessage)) {
         $post_msg = $event->getText();
         switch ($post_msg) {
             case "帰社":
-                // 帰社処理
                 // am 9:00 ~ pm 22:45
-                $target_hh = array("9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23");
-                $target_mm = array("00", "15", "30", "45");
                 $columnArray = [];
                 $actionArray = [];
                 foreach ($target_hh as $k => $v) {
@@ -85,7 +84,7 @@ foreach ($events as $event) {
                         $picture_num = (($k + 1) / 3);
                         $column = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
                             "時選択",
-                            "何時に帰社しますか?",
+                            "何時に帰社しますか？",
                             "https://" . $_SERVER["HTTP_HOST"] . "/imgs/" . $picture_num . ".png",
                             $actionArray
                         );
@@ -93,9 +92,29 @@ foreach ($events as $event) {
                         $actionArray = array();
                     }
                 }
-                replyCarouselTemplate($bot, $event->getReplyToken(), "帰社報告", $columnArray);
-
+                replyCarouselTemplate($bot, $event->getReplyToken(), "帰社報告　時選択", $columnArray);
         }
+    }
+    if ($event instanceof \LINE\LINEBot\Event\PostbackEvent) {
+        $postback_msg = $event->getPostbackData();
+        if (in_array($postback_msg, $target_hh)) {
+            replyButtonsTemplate($bot,
+                $event->getReplyToken(),
+                "帰社報告　分選択",
+                "https://" . $_SERVER["HTTP_HOST"] . "/imgs/hh.png",
+                "分選択",
+                "{$postback_msg}時何分に帰社しますか？",
+                new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder (
+                    $target_mm[0], $target_mm[0]),
+                new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder (
+                    $target_mm[1], $target_mm[1]),
+                new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder (
+                    $target_mm[2], $target_mm[2]),
+                new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder (
+                    $target_mm[3], $target_mm[3]),
+            );
+        }
+//        replyTextMessage($bot, $event->getReplyToken(), "Postback受信「" . $event->getPostbackData() . "」");
     }
 
     // 直帰処理
