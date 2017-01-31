@@ -1,4 +1,10 @@
 <?php
+$str1 = 'abcdef';
+$substr1 = substr($str1, 0, 1);
+$substr2 = substr($str1, 2, 3);
+
+print($str1.' の0バイトから1バイト取り出すと '.$substr1.' です<br>');
+print($str1.' の2バイトから3バイト取り出すと '.$substr2.' です<br><br>');
 
 
     // am 9:00 ~ pm 22:45
