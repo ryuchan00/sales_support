@@ -30,11 +30,11 @@ class Connect
         }else{
             error_log('データの選択に失敗しました');
         }
-        if ($stmt->fetchColumn() == 0){
-            error_log('0件');
-        }else{
-            error_log('件数あり');
-        }
+//        if ($stmt->fetchColumn() == 0){
+//            error_log('0件');
+//        }else{
+//            error_log('件数あり');
+//        }
 
         while($result = $stmt->fetch(PDO::FETCH_ASSOC)){
             error_log($result['user_line_id']);
