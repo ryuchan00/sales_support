@@ -55,6 +55,8 @@ class Connect
             }else{
                 error_log('データの追加に失敗しました');
             }
+        } else {
+            error_log('件数あり');
         }
 
         // 結果の取得
