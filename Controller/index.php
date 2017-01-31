@@ -111,7 +111,7 @@ foreach ($events as $event) {
                 new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder (
                     $target_mm[2], $target_mm[2]),
                 new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder (
-                    $target_mm[3], $target_mm[3]),
+                    $target_mm[3], $target_mm[3])
             );
         }
 //        replyTextMessage($bot, $event->getReplyToken(), "Postback受信「" . $event->getPostbackData() . "」");
