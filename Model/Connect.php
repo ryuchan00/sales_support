@@ -22,7 +22,7 @@ class Connect
     {
         $sql = "select user_line_id, name from public.user where user_line_id='U334d5960d3ba418048fd5c8814c27de3'";
         $stmt = $this->pdo()->prepare($sql);
-//        $stmt->bindValue(":user_line_id", $profile["userId"]);
+//        $stmt->bindValue(":user_line_id", $profile["userId"], PDO::PARAM_STR);
 //        $stmt->bindValue(":user_line_id", "U334d5960d3ba418048fd5c8814c27de3");
         $flag = $stmt->execute();
         if ($flag){
@@ -36,10 +36,10 @@ class Connect
             error_log('件数あり');
         }
 
-//        while($result = $stmt->fetch(PDO::FETCH_ASSOC)){
-//            error_log($result['user_line_id']);
-//            error_log($result['name']);
-//        }
+        while($result = $stmt->fetch(PDO::FETCH_ASSOC)){
+            error_log($result['user_line_id']);
+            error_log($result['name']);
+        }
 
 //        if ($stmt->fetchColumn() == 0) {
 //            $sql = "insert into public.user (user_line_id, name, comment, picture_url) values (:user_line_id, :name, :comment, :picture_url)";
