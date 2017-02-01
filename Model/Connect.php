@@ -83,7 +83,7 @@ class Connect
         return $flag;
     }
 
-    public function plural_h($sql, $item)
+    public function plurals($sql, $item)
     {
         $hoge = $this->pdo();
         $stmt = $hoge->prepare($sql);
