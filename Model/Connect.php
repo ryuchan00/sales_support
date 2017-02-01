@@ -97,7 +97,7 @@ class Connect
             error_log('データの更新に失敗しました');
         }
 //        error_log($stmt->debugDumpParams());
-        $result = $stmt->fetch(PDO::FETCH_ASSOC)
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
         return $result;
     }
 }
