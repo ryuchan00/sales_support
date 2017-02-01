@@ -98,6 +98,12 @@ class Connect
         }
 //        error_log($stmt->debugDumpParams());
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        error_log($sql);
+        while ($result) {
+            error_log($result['user_line_id']);
+            error_log($result['name']);
+            $count++;
+        }
         return $result;
     }
 }
