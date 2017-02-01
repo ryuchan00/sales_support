@@ -87,8 +87,11 @@ class Connect
     {
         $hoge = $this->pdo();
         $stmt = $hoge->prepare($sql);
-        $stmt->bindValue(":hour", $item['hour']);
-        $stmt->bindValue(":user_line_id", $item['user_line_id']);
+        foreach ($item as $k => $v) {
+            $stmt->bindValue(":" . $k, $v);
+        }
+//        $stmt->bindValue(":hour", $item['hour']);
+//        $stmt->bindValue(":user_line_id", $item['user_line_id']);
         $flag = $stmt->execute();
         if ($flag) {
             error_log('データの更新に成功しました');
