@@ -83,20 +83,26 @@ class Connect
         return $flag;
     }
 
-    public function plural_h($sql, $item)
+    public function plurals($sql, $item)
     {
         $hoge = $this->pdo();
         $stmt = $hoge->prepare($sql);
-        $stmt->bindValue(":hour", $item['hour']);
-        $stmt->bindValue(":user_line_id", $item['user_line_id']);
+        foreach ($item as $k => $v) {
+            $stmt->bindValue(":" . $k, $v);
+        }
         $flag = $stmt->execute();
         if ($flag) {
             error_log('データの更新に成功しました');
         } else {
             error_log('データの更新に失敗しました');
         }
-
-        error_log($stmt->debugDumpParams());
-        return $flag;
+//        error_log($stmt->debugDumpParams());
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        error_log($sql);
+        while ($result) {
+            error_log($result['user_line_id']);
+            error_log($result['name']);
+        }
+        return $result;
     }
 }
