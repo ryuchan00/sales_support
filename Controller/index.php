@@ -80,10 +80,10 @@ foreach ($events as $event) {
         ];
         $user = $pdo->plurals($sql, $item);
         if (!empty($user)) {
-            $sql = "update public.user set text=:text where user_line_id=:user_line_id";
+            $sql = "update public.user set body=:body where user_line_id=:user_line_id";
             $item = [
                 "user_line_id" => $profile["userId"],
-                "text" => $post_msg
+                "body" => $post_msg
             ];
             $pdo->plurals($sql, $item);
             replyTextMessage($bot, $event->getReplyToken(), "本文は以下でよろしいですか？%0D%0A各位%0D%0A{$user['hour']}時{$user['minute']}分に帰社します。");
