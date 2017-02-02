@@ -91,6 +91,11 @@ foreach ($events as $event) {
         }
         switch ($post_msg) {
             case "帰社":
+                $sql = "update public.user set hour=NULL, minute=NULL, body=NULL where user_line_id=:user_line_id";
+                $item = [
+                    "user_line_id" => $profile["userId"],
+                ];
+                $pdo->plurals($sql, $item);
                 $columnArray = [];
                 $actionArray = [];
                 foreach ($target_hh as $k => $v) {
