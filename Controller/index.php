@@ -75,11 +75,15 @@ foreach ($events as $event) {
         $post_msg = $event->getText();
 
         $sql = "select id, user_line_id, name, comment, picture_url, hour, minute from public.user where user_line_id=:user_line_id and hour is not null and minute is not null";
+        $item = [
+            "user_line_id" => $profile["userId"]
+        ];
         $user = $pdo->plurals($sql, $item);
         if (!empty($user)) {
             $sql = "update public.user set text=:text where user_line_id=:user_line_id";
             $item = [
                 "user_line_id" => $profile["userId"],
+                "text" => $post_msg
             ];
             $pdo->plurals($sql, $item);
             replyTextMessage($bot, $event->getReplyToken(), "本文は以下でよろしいですか？%0D%0A各位%0D%0A{$user['hour']}時{$user['minute']}分に帰社します。");
