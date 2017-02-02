@@ -95,8 +95,7 @@ class Connect
         } else {
             error_log('データの更新に失敗しました');
         }
-        // $stmt->execute(array(':id'=>$item));//sql文のVALUES等の値が?の場合は$itemでもいい。
-        // $stmt->execute(array($item));
+
         error_log($stmt->debugDumpParams());
         return $flag;
     }

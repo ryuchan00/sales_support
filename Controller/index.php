@@ -127,7 +127,6 @@ foreach ($events as $event) {
             replyTextMessage($bot, $event->getReplyToken(), "続けてメール本文を入力してください。");
             exit;
         }
-//        replyTextMessage($bot, $event->getReplyToken(), "Postback受信「" . $event->getPostbackData() . "」");
     }
 
     // 直帰処理
