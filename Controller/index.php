@@ -74,7 +74,7 @@ foreach ($events as $event) {
     if (($event instanceof \LINE\LINEBot\Event\MessageEvent\TextMessage)) {
         $post_msg = $event->getText();
 
-        $sql = "select id, user_line_id, name, comment, picture_url, hour, minute from public.user where user_line_id=:user_line_id and hour is not null and minute is not null";
+        $sql = "select id, user_line_id, name, comment, picture_url, hour, minute from public.user where user_line_id=:user_line_id and hour is not NULL and minute is not NULL and boyd is NULL";
         $item = [
             "user_line_id" => $profile["userId"]
         ];
