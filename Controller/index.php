@@ -63,6 +63,7 @@ foreach ($events as $event) {
                 "body" => $post_msg
             ];
             $pdo->plurals($sql, $item);
+            // todo:$user['name']の改行マークを置換する。
             $body = <<<EOD
 本文は以下でよろしいですか？
 各位
