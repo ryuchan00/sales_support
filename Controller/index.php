@@ -43,29 +43,6 @@ foreach ($events as $event) {
     $pdo = new Connect;
     $pdo->registerProfile($profile);
 
-//$bot->replyMessage($event->getReplyToken(),
-//  (new \LINE\LINEBot\MessageBuilder\MultiMessageBuilder())
-//    ->add(new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($message))
-//    ->add(new \LINE\LINEBot\MessageBuilder\StickerMessageBuilder(1, $stkid))
-//);
-
-//
-//    replyImageMessage($bot, $event->getReplyToken(), "https://" . $_SERVER["HTTP_HOST"] . "/imgs/original.jpg", "https://" . $_SERVER["HTTP_HOST"] . "/imgs/preview.jpg");
-    //  replyButtonsTemplate($bot,
-    //      $event->getReplyToken(),
-    //      "お天気お知らせ - 今日は天気予報は晴れです",
-    //      "https://" . $_SERVER["HTTP_HOST"] . "/imgs/template.jpg",
-    //      "お天気お知らせ",
-    //      "今日は天気予報は晴れです",
-    //      new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder (
-    //          "明日の天気", "tomorrow"),
-    //      new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder (
-    //          "週末の天気", "weekend"),
-    //      new LINE\LINEBot\TemplateActionBuilder\UriTemplateActionBuilder (
-    //          "Webで見る", "https://ct2.cservice.jp/res5.3t_demo/twilio_demo2/manage/index.php?mode=re_auth")
-    //  );
-
-
     // 友達追加処理
 
     // am 9:00 ~ pm 22:45
@@ -74,7 +51,7 @@ foreach ($events as $event) {
     if (($event instanceof \LINE\LINEBot\Event\MessageEvent\TextMessage)) {
         $post_msg = $event->getText();
 
-        $sql = "select id, user_line_id, name, comment, picture_url, hour, minute from public.user where user_line_id=:user_line_id and hour is not NULL and minute is not NULL and boyd is NULL";
+        $sql = "select id, user_line_id, name, comment, picture_url, hour, minute from public.user where user_line_id=:user_line_id and hour is not NULL and minute is not NULL and body is NULL";
         $item = [
             "user_line_id" => $profile["userId"]
         ];
@@ -86,7 +63,17 @@ foreach ($events as $event) {
                 "body" => $post_msg
             ];
             $pdo->plurals($sql, $item);
-            replyTextMessage($bot, $event->getReplyToken(), "本文は以下でよろしいですか？%0D%0A各位%0D%0A{$user['hour']}時{$user['minute']}分に帰社します。");
+            $body = <<<EOD
+本文は以下でよろしいですか？
+各位
+
+{$user['name']}です。
+{$user['hour']}時{$user['minute']}分に帰社します。
+{$user['body']}
+
+以上、宜しくお願い致します。
+EOD;
+            replyTextMessage($bot, $event->getReplyToken(), $body);
             exit;
         }
         switch ($post_msg) {
@@ -115,6 +102,7 @@ foreach ($events as $event) {
                     }
                 }
                 replyCarouselTemplate($bot, $event->getReplyToken(), "帰社報告　時選択", $columnArray);
+                exit;
         }
     }
     if ($event instanceof \LINE\LINEBot\Event\PostbackEvent) {
@@ -163,22 +151,3 @@ foreach ($events as $event) {
 
     // 「いいえ」処理
 
-    // $columnArray = array();
-    // for($i = 0; $i < 5; $i++) {
-    //     $actionArray = array();
-    //     array_push($actionArray, new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder (
-    //         "ボタン" . $i . "-" . 1, "c-" . $i . "-" . 1));
-    //     array_push($actionArray, new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder (
-    //         "ボタン" . $i . "-" . 2, "c-" . $i . "-" . 2));
-    //     array_push($actionArray, new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder (
-    //         "ボタン" . $i . "-" . 3, "c-" . $i . "-" . 3));
-    //     $column = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
-    //         ($i + 1) . "日後の天気",
-    //         "晴れ",
-    //         "https://" . $_SERVER["HTTP_HOST"] .  "/imgs/template.png",
-    //         $actionArray
-    //     );
-    //     array_push($columnArray, $column);
-    // }
-    // replyCarouselTemplate($bot, $event->getReplyToken(),"今後の天気予報", $columnArray);
-}
