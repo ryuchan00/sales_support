@@ -1,0 +1,27 @@
+leAcvity.pu
+@startuml{plantuml_seq_sample.png}
+title LineBotをアンケートに使用する場合の想定フロー
+hide footbox
+
+actor ユーザー as user
+participant MessageAPI as line <<@Lineアカウント>>
+'participant "<u>ApiRequest</u>" as model <<Model>>
+participant サーバー as svr  #98AAAA
+participant DB as db #98FB98
+
+user -> line : QRコードより友達申請
+activate line
+line -> svr : ユーザー情報送信
+activate svr
+svr -> db : ユーザー情報を記録
+svr -> line : アンケートメッセージを生成
+line -> user : アンケートを4択で送信
+user -> line : 回答ボタンをタップ
+line -> svr : webhookでプログラム起動
+svr -> db : 回答情報を記録
+svr -> line : インセンティブ情報を生成
+deactivate svr
+line -> user : インセンティブを送信
+deactivate line
+
+@enduml

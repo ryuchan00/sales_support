@@ -1,0 +1,49 @@
+leAcvity.pu
+@startuml{plantuml_seq_sample.png}
+title SampleActivityシーケンス図
+hide footbox
+
+actor ユーザー as user
+participant SampleActivity as sampleActivity <<Contoroller>>
+participant "<u>ApiRequest</u>" as model <<Model>>
+participant DB as db <<Store>> #98AAAA
+participant Sample.xml as xml <<View>> #98FB98
+
+user -> sampleActivity : 表示
+activate sampleActivity
+
+'View初期化
+sampleActivity -> xml : 初期化
+activate xml
+
+'APIリクエスト生成
+create model
+sampleActivity -> model : <<new>>
+activate model
+
+'APIリクエスト
+sampleActivity -> model : データ取得
+activate model
+model ->> db : 非同期データ検索
+|||
+model <<- db : 非同期データ返却
+
+'API結果返却
+sampleActivity <-- model : 取得結果
+note right : ヒットしたものをリストで返却
+deactivate model
+deactivate model
+destroy model
+
+'表示処理
+sampleActivity -> xml : 表示(結果を設定)
+deactivate sampleActivity
+
+'データセット
+loop 1, データ数
+  xml -> xml : データセット
+end
+xml --> user
+deactivate xml
+
+@enduml
