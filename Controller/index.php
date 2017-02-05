@@ -104,6 +104,37 @@ EOD;
                 }
                 replyCarouselTemplate($bot, $event->getReplyToken(), "帰社報告　時選択", $columnArray);
                 exit;
+            case "はい":
+                $sql = "select id, user_line_id, name, comment, picture_url, hour, minute from public.user where user_line_id=:user_line_id and hour is not NULL and minute is not NULL and body is not NULL";
+                $item = [
+                    "user_line_id" => $profile["userId"]
+                ];
+                $user = $pdo->plurals($sql, $item);
+                if (!empty($user)) {
+                    mb_language("Japanese");
+                    mb_internal_encoding("UTF-8");
+
+                    $to      = 'leo0210leo@gmail.com';
+                    $subject = '【勤怠連絡】' .$user["name"];
+                    $message = <<<EOD
+本文は以下でよろしいですか？
+各位
+
+{$user['name']}です。
+{$user['hour']}時{$user['minute']}分に帰社します。
+{$user['body']}
+
+以上、宜しくお願い致します。
+EOD;
+                    $headers = 'From: from@hoge.co.jp' . "\r\n";
+
+                    mb_send_mail($to, $subject, $message, $headers);
+                }
+                $sql = "update public.user set hour=NULL, minute=NULL, body=NULL where user_line_id=:user_line_id";
+                $item = [
+                    "user_line_id" => $profile["userId"],
+                ];
+                $pdo->plurals($sql, $item);
         }
     }
     if ($event instanceof \LINE\LINEBot\Event\PostbackEvent) {
