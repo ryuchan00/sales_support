@@ -114,8 +114,8 @@ EOD;
                     mb_language("Japanese");
                     mb_internal_encoding("UTF-8");
 
-                    $to      = 'leo0210leo@gmail.com';
-                    $subject = '【勤怠連絡】' .$user["name"];
+                    $to = 'leo0210leo@gmail.com';
+                    $subject = '【勤怠連絡】' . $user["name"];
                     $message = <<<EOD
 本文は以下でよろしいですか？
 各位
@@ -130,11 +130,11 @@ EOD;
 
                     mb_send_mail($to, $subject, $message, $headers);
                 }
-                $sql = "update public.user set hour=NULL, minute=NULL, body=NULL where user_line_id=:user_line_id";
-                $item = [
-                    "user_line_id" => $profile["userId"],
-                ];
-                $pdo->plurals($sql, $item);
+//                $sql = "update public.user set hour=NULL, minute=NULL, body=NULL where user_line_id=:user_line_id";
+//                $item = [
+//                    "user_line_id" => $profile["userId"],
+//                ];
+//                $pdo->plurals($sql, $item);
         }
     }
     if ($event instanceof \LINE\LINEBot\Event\PostbackEvent) {
