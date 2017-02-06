@@ -21,25 +21,6 @@ try {
 }
 
 foreach ($events as $event) {
-//    if ($event instanceof \LINE\LINEBot\Event\PostbackEvent) {
-//        replyTextMessage($bot, $event->getReplyToken(), "Postback受信「" . $event->getPostbackData() . "」");
-//        continue;
-//    }
-
-    // 全イベントを許可する。
-    // if (!($event instanceof \LINE\LINEBot\Event\MessageEvent)) {
-    //     error_log('Non message event has come');
-    //     continue;
-    // }
-    // if (!($event instanceof \LINE\LINEBot\Event\MessageEvent\TextMessage)) {
-    //     error_log('Non text message has come');
-    //     continue;
-    // }
-
-
-// $bot->replyText($event->getReplyToken(), $event->getText());
-    $message = "http://codezine.jp/article/detail/9905";
-//$message = $profile["displayName"] . "さん、ランダムでスタンプで返答します。";
     $profile = $bot->getProfile($event->getUserId())->getJSONDecodedBody();
     $pdo = new Connect;
     $pdo->registerProfile($profile);
@@ -88,7 +69,6 @@ EOD;
                 $columnArray = [];
                 $actionArray = [];
                 foreach ($target_hh as $k => $v) {
-//                    $display_v = substr($v, 3);
                     array_push($actionArray, new LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder (
                         substr($v, 2), $v));
                     if ((($k + 1) % 3 == 0)) {
@@ -106,7 +86,7 @@ EOD;
                 replyCarouselTemplate($bot, $event->getReplyToken(), "帰社報告　時選択", $columnArray);
                 exit;
             case "はい":
-                $sql = "select id, user_line_id, name, comment, picture_url, hour, minute from public.user where user_line_id=:user_line_id and hour is not NULL and minute is not NULL and body is not NULL";
+                $sql = "select id, user_line_id, name, comment, picture_url, hour, minute, body from public.user where user_line_id=:user_line_id and hour is not NULL and minute is not NULL and body is not NULL";
                 $item = [
                     "user_line_id" => $profile["userId"]
                 ];
@@ -136,7 +116,7 @@ EOD;
                     "user_line_id" => $profile["userId"],
                 ];
                 $pdo->plurals($sql, $item);
-                error_log('メール送信完了');
+                replyTextMessage($bot, $event->getReplyToken(), 'メール送信完了');
                 exit;
         }
     }
