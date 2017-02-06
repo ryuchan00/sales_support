@@ -2,6 +2,7 @@
 
 require_once __DIR__ . '/../Model/Connect.php';
 require_once __DIR__ . '/../Model/edit_message.php';
+require __DIR__ . '/../vendor/autoload.php'; // path to vendor/
 
 $httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient(getenv('CHANNEL_ACCESS_TOKEN'));
 $bot = new \LINE\LINEBot($httpClient, ['channelSecret' => getenv('CHANNEL_SECRET')]);
@@ -111,11 +112,7 @@ EOD;
                 ];
                 $user = $pdo->plurals($sql, $item);
                 if (!empty($user)) {
-                    mb_language("Japanese");
-                    mb_internal_encoding("UTF-8");
 
-                    $to = 'leo0210leo@gmail.com';
-                    $subject = '【勤怠連絡】' . $user["name"];
                     $message = <<<EOD
 本文は以下でよろしいですか？
 各位
@@ -126,9 +123,14 @@ EOD;
 
 以上、宜しくお願い致します。
 EOD;
-                    $headers = 'From: from@hoge.co.jp' . "\r\n";
+                    $sendgrid = new SendGrid(getenv('SENDGRID_USERNAME'), getenv('SENDGRID_PASSWORD'));
+                    $email = new SendGrid\Email();
+                    $email->addTo('leo0210leo@gmail.com')->
+                    setFrom('sales_support@cbase.co.jp')->
+                    setSubject('【勤怠連絡】' . $user["name"])->
+                    setText($message);
 
-                    mb_send_mail($to, $subject, $message, $headers);
+                    $sendgrid->send($email);
                 }
 //                $sql = "update public.user set hour=NULL, minute=NULL, body=NULL where user_line_id=:user_line_id";
 //                $item = [
