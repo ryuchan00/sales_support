@@ -136,6 +136,8 @@ EOD;
                     "user_line_id" => $profile["userId"],
                 ];
                 $pdo->plurals($sql, $item);
+                error_log('メール送信完了');
+                exit;
         }
     }
     if ($event instanceof \LINE\LINEBot\Event\PostbackEvent) {
