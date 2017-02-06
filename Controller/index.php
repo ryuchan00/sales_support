@@ -114,7 +114,6 @@ EOD;
                 if (!empty($user)) {
 
                     $message = <<<EOD
-本文は以下でよろしいですか？
 各位
 
 {$user['name']}です。
@@ -132,11 +131,11 @@ EOD;
 
                     $sendgrid->send($email);
                 }
-//                $sql = "update public.user set hour=NULL, minute=NULL, body=NULL where user_line_id=:user_line_id";
-//                $item = [
-//                    "user_line_id" => $profile["userId"],
-//                ];
-//                $pdo->plurals($sql, $item);
+                $sql = "update public.user set hour=NULL, minute=NULL, body=NULL where user_line_id=:user_line_id";
+                $item = [
+                    "user_line_id" => $profile["userId"],
+                ];
+                $pdo->plurals($sql, $item);
         }
     }
     if ($event instanceof \LINE\LINEBot\Event\PostbackEvent) {
