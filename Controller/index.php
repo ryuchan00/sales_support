@@ -70,7 +70,7 @@ foreach ($events as $event) {
 
 {$user['name']}です。
 {$user['hour']}時{$user['minute']}分に帰社します。
-{$user['body']}
+{$post_msg}
 
 以上、宜しくお願い致します。
 EOD;
