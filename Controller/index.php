@@ -106,9 +106,9 @@ EOD;
                     $email = new SendGrid\Email();
 //                    $email->addTo('leo0210leo@gmail.com')->
                     $email->addTo(getenv('MAIL_TO'))->
-                    setFrom('sales_support@cbase.co.jp')->
-//                    setSubject('【勤怠連絡】' . $user["name"])->
-                    setSubject('テスト' . $user["name"])->
+                    setFrom('kintai@cbase.co.jp')->
+                    setSubject('【勤怠連絡】' . $user["name"])->
+//                    setSubject('テスト' . $user["name"])->
                     setText($message);
 
                     $sendgrid->send($email);
