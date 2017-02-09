@@ -1,4 +1,5 @@
 <?php
+// rebase 実験
 
 require_once __DIR__ . '/../Model/Connect.php';
 require_once __DIR__ . '/../Model/edit_message.php';
@@ -104,8 +105,8 @@ EOD;
 EOD;
                     $sendgrid = new SendGrid(getenv('SENDGRID_USERNAME'), getenv('SENDGRID_PASSWORD'));
                     $email = new SendGrid\Email();
-//                    $email->addTo('leo0210leo@gmail.com')->
-                    $email->addTo(getenv('MAIL_TO'))->
+                    $email->addTo('leo0210leo@gmail.com')->
+//                    $email->addTo(getenv('MAIL_TO'))->
                     setFrom('kintai@cbase.co.jp')->
                     setSubject('【勤怠連絡】' . $user["name"])->
 //                    setSubject('テスト' . $user["name"])->
