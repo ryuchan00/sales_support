@@ -24,9 +24,21 @@ try {
 foreach ($events as $event) {
     $profile = $bot->getProfile($event->getUserId())->getJSONDecodedBody();
     $pdo = new Connect;
-    $pdo->registerProfile($profile);
+//    $pdo->registerProfile($profile);
 
     // 友達追加処理
+    if ($event instanceof \LINE\LINEBot\Event\FollowEvent) {
+        error_log("友達追加");
+        $pdo->registerProfile($profile);
+        $body = <<<EOD
+友達登録ありがとうございます。
+帰社する時には、"帰社"ボタン
+直帰する時には、"直帰"ボタン
+を押すと、自動的にメールを送信してくれます！
+EOD;
+        replyTextMessage($bot, $event->getReplyToken(), $body);
+        exit;
+    }
 
     // am 9:00 ~ pm 22:45
     $target_hh = array("h_9", "h_10", "h_11", "h_12", "h_13", "h_14", "h_15", "h_16", "h_17", "h_18", "h_19", "h_20", "h_21", "h_22", "h_23");
@@ -49,6 +61,7 @@ foreach ($events as $event) {
             // todo:$user['name']の改行マークを置換する。
             $body = <<<EOD
 本文は以下でよろしいですか？
+*-ここから--------------------*
 各位
 
 {$user['name']}です。
@@ -56,6 +69,7 @@ foreach ($events as $event) {
 {$post_msg}
 
 以上、宜しくお願い致します。
+*-ここまで--------------------*
 EOD;
             replyTextMessage($bot, $event->getReplyToken(), $body);
             exit;
