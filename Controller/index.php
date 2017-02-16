@@ -124,13 +124,13 @@ EOD;
                     setText($message);
 
                     $sendgrid->send($email);
+                    replyTextMessage($bot, $event->getReplyToken(), 'メール送信完了');
+                    $sql = "update public.user set hour=NULL, minute=NULL, body=NULL where user_line_id=:user_line_id";
+                    $item = [
+                        "user_line_id" => $profile["userId"],
+                    ];
+                    $pdo->plurals($sql, $item);
                 }
-                $sql = "update public.user set hour=NULL, minute=NULL, body=NULL where user_line_id=:user_line_id";
-                $item = [
-                    "user_line_id" => $profile["userId"],
-                ];
-                $pdo->plurals($sql, $item);
-                replyTextMessage($bot, $event->getReplyToken(), 'メール送信完了');
                 exit;
             case "いいえ":
                 $sql = "update public.user set hour=NULL, minute=NULL, body=NULL where user_line_id=:user_line_id";
@@ -184,7 +184,4 @@ EOD;
 
     // 直帰処理
 
-    // 「はい」処理
-
-    // 「いいえ」処理
 }
