@@ -1,5 +1,4 @@
 <?php
-// rebase 実験
 
 require_once __DIR__ . '/../Model/Connect.php';
 require_once __DIR__ . '/../Model/edit_message.php';
@@ -28,15 +27,14 @@ foreach ($events as $event) {
 
     // 友達追加処理
     if ($event instanceof \LINE\LINEBot\Event\FollowEvent) {
-        error_log("友達追加");
         $pdo->registerProfile($profile);
-        $body = <<<EOD
+        $message = <<<EOD
 友達登録ありがとうございます。
 帰社する時には、"帰社"ボタン
 直帰する時には、"直帰"ボタン
 を押すと、自動的にメールを送信してくれます！
 EOD;
-        replyTextMessage($bot, $event->getReplyToken(), $body);
+        replyTextMessage($bot, $event->getReplyToken(), $message);
         exit;
     }
 
@@ -107,7 +105,6 @@ EOD;
                 ];
                 $user = $pdo->plurals($sql, $item);
                 if (!empty($user)) {
-
                     $message = <<<EOD
 各位
 
@@ -134,6 +131,14 @@ EOD;
                 ];
                 $pdo->plurals($sql, $item);
                 replyTextMessage($bot, $event->getReplyToken(), 'メール送信完了');
+                exit;
+            case "いいえ":
+                $sql = "update public.user set hour=NULL, minute=NULL, body=NULL where user_line_id=:user_line_id";
+                $item = [
+                    "user_line_id" => $profile["userId"]
+                ];
+                $user = $pdo->plurals($sql, $item);
+                replyTextMessage($bot, $event->getReplyToken(), '全ての処理状況をリセットします。');
                 exit;
         }
     }
