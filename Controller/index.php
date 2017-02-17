@@ -24,6 +24,11 @@ foreach ($events as $event) {
     $profile = $bot->getProfile($event->getUserId())->getJSONDecodedBody();
     $pdo = new Connect;
     $pdo->registerProfile($profile);
+    if (($event instanceof \LINE\LINEBot\Event\BeaconDetectionEvent)) {
+        error_log($event->getHwid());
+        replyTextMessage($bot, $event->getReplyToken(), 'ビーコンイベント発火');
+        exit;
+    }
 
     // 友達追加処理
 
@@ -97,7 +102,7 @@ EOD;
 各位
 
 {$user['name']}です。
-{$user['hour']}時{$user['minute']}分に帰社します。
+{$user['hour']}時{$user['minute']}分に帰社します。bor
 {$user['body']}
 
 以上、宜しくお願い致します。
