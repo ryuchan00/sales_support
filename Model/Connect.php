@@ -64,25 +64,6 @@ class Connect
         return $items;
     }
 
-    //SELECT,INSERT,UPDATE,DELETE文の時に使用する関数。
-    public function plural($sql, $item)
-    {
-        $hoge = $this->pdo();
-        $stmt = $hoge->prepare($sql);
-//        $stmt = $this->pdo()->prepare($sql);
-        $stmt->bindValue(":id", $item);
-        $flag = $stmt->execute();
-        if ($flag) {
-            error_log('データの選択に成功しました');
-        } else {
-            error_log('データの選択に失敗しました');
-        }
-        // $stmt->execute(array(':id'=>$item));//sql文のVALUES等の値が?の場合は$itemでもいい。
-        // $stmt->execute(array($item));
-        error_log($stmt->debugDumpParams());
-        return $flag;
-    }
-
     public function plurals($sql, $item)
     {
         $hoge = $this->pdo();
@@ -96,7 +77,6 @@ class Connect
         } else {
             error_log('データの更新に失敗しました');
         }
-//        error_log($stmt->debugDumpParams());
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         error_log($sql);
         return $result;

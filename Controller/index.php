@@ -77,6 +77,36 @@ EOD;
             replyTextMessage($bot, $event->getReplyToken(), $body);
             exit;
         }
+        $sql = "select id, user_line_id, name, comment, picture_url, hour, minute from public.user where user_line_id=:user_line_id and hour is NULL and minute is NULL and body is NULL and direct_flg=:direct_flg";
+        $item = [
+            "user_line_id" => $profile["userId"],
+            "direct_flg" => "1"
+        ];
+        $user = $pdo->plurals($sql, $item);
+        if (!empty($user)) {
+            $sql = "update public.user set body=:body where user_line_id=:user_line_id";
+            $item = [
+                "user_line_id" => $profile["userId"],
+                "body" => $post_msg
+            ];
+            $pdo->plurals($sql, $item);
+            // todo:$user['name']の改行マークを置換する。
+            $body = <<<EOD
+本文は以下でよろしいですか？
+*-ここから--------------------*
+各位
+
+{$user['name']}です。
+これよりに直帰します。
+{$post_msg}
+
+以上、宜しくお願い致します。
+*-ここまで--------------------*
+EOD;
+            replyTextMessage($bot, $event->getReplyToken(), $body);
+            exit;
+        }
+
         switch ($post_msg) {
             case "帰社":
                 $sql = "update public.user set hour=NULL, minute=NULL, body=NULL where user_line_id=:user_line_id";
@@ -102,6 +132,15 @@ EOD;
                     }
                 }
                 replyCarouselTemplate($bot, $event->getReplyToken(), "帰社報告　時選択", $columnArray);
+                exit;
+            case "直帰":
+                $sql = "update public.user set hour=NULL, minute=NULL, body=NULL, direct_flg=:direct_flg where user_line_id=:user_line_id";
+                $item = [
+                    "user_line_id" => $profile["userId"],
+                    "direct_flg" => "1"
+                ];
+                $pdo->plurals($sql, $item);
+                replyTextMessage($bot, $event->getReplyToken(), "メール本文を入力してください。");
                 exit;
             case "はい":
                 $sql = "select id, user_line_id, name, comment, picture_url, hour, minute, body from public.user where user_line_id=:user_line_id and hour is not NULL and minute is not NULL and body is not NULL";
@@ -138,7 +177,7 @@ EOD;
                 }
                 exit;
             case "いいえ":
-                $sql = "update public.user set hour=NULL, minute=NULL, body=NULL where user_line_id=:user_line_id";
+                $sql = "update public.user set hour=NULL, minute=NULL, body=NULL, direct_flg=NULL where user_line_id=:user_line_id";
                 $item = [
                     "user_line_id" => $profile["userId"]
                 ];
