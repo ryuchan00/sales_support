@@ -77,6 +77,7 @@ EOD;
             replyTextMessage($bot, $event->getReplyToken(), $body);
             exit;
         }
+
         $sql = "select id, user_line_id, name, comment, picture_url, hour, minute from public.user where user_line_id=:user_line_id and hour is NULL and minute is NULL and body is NULL and direct_flg=:direct_flg";
         $item = [
             "user_line_id" => $profile["userId"],
@@ -107,9 +108,11 @@ EOD;
             exit;
         }
 
+
+
         switch ($post_msg) {
             case "帰社":
-                $sql = "update public.user set hour=NULL, minute=NULL, body=NULL where user_line_id=:user_line_id";
+                $sql = "update public.user set hour=NULL, minute=NULL, body=NULL, direct_flg=NULL where user_line_id=:user_line_id";
                 $item = [
                     "user_line_id" => $profile["userId"],
                 ];
@@ -143,7 +146,8 @@ EOD;
                 replyTextMessage($bot, $event->getReplyToken(), "メール本文を入力してください。");
                 exit;
             case "はい":
-                $sql = "select id, user_line_id, name, comment, picture_url, hour, minute, body from public.user where user_line_id=:user_line_id and hour is not NULL and minute is not NULL and body is not NULL";
+                // 帰社
+                $sql = "select id, user_line_id, name, comment, picture_url, hour, minute, body from public.user where user_line_id=:user_line_id and hour is not NULL and minute is not NULL and body is not NULL and direct_flg=:direct_flg";
                 $item = [
                     "user_line_id" => $profile["userId"]
                 ];
@@ -153,7 +157,7 @@ EOD;
 各位
 
 {$user['name']}です。
-{$user['hour']}時{$user['minute']}分に帰社します。bor
+{$user['hour']}時{$user['minute']}分に帰社します。
 {$user['body']}
 
 以上、宜しくお願い致します。
@@ -170,6 +174,41 @@ EOD;
                     $sendgrid->send($email);
                     replyTextMessage($bot, $event->getReplyToken(), 'メール送信完了');
                     $sql = "update public.user set hour=NULL, minute=NULL, body=NULL where user_line_id=:user_line_id";
+                    $item = [
+                        "user_line_id" => $profile["userId"],
+                    ];
+                    $pdo->plurals($sql, $item);
+                }
+
+                // 直帰
+                $sql = "select id, user_line_id, name, comment, picture_url, hour, minute, body from public.user where user_line_id=:user_line_id and hour is NULL and minute is NULL and body is not NULL and ";
+                $item = [
+                    "user_line_id" => $profile["userId"],
+                    "direct_flg" => "1"
+                ];
+                $user = $pdo->plurals($sql, $item);
+                if (!empty($user)) {
+                    $message = <<<EOD
+各位
+
+{$user['name']}です。
+これよりに直帰します。
+{$user['body']}
+
+以上、宜しくお願い致します。
+EOD;
+                    $sendgrid = new SendGrid(getenv('SENDGRID_USERNAME'), getenv('SENDGRID_PASSWORD'));
+                    $email = new SendGrid\Email();
+                    $email->addTo('leo0210leo@gmail.com')->
+//                    $email->addTo(getenv('MAIL_TO'))->
+                    setFrom('kintai@cbase.co.jp')->
+                    setSubject('【勤怠連絡】' . $user["name"])->
+//                    setSubject('テスト' . $user["name"])->
+                    setText($message);
+
+                    $sendgrid->send($email);
+                    replyTextMessage($bot, $event->getReplyToken(), 'メール送信完了');
+                    $sql = "update public.user set hour=NULL, minute=NULL, body=NULL, direct_flg=NULL where user_line_id=:user_line_id";
                     $item = [
                         "user_line_id" => $profile["userId"],
                     ];
