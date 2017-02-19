@@ -47,6 +47,8 @@ EOD;
     $target_hh = array("h_9", "h_10", "h_11", "h_12", "h_13", "h_14", "h_15", "h_16", "h_17", "h_18", "h_19", "h_20", "h_21", "h_22", "h_23");
     $target_mm = array("m_00", "m_15", "m_30", "m_45");
     if (($event instanceof \LINE\LINEBot\Event\MessageEvent\TextMessage)) {
+        $post_msg = $event->getText();
+
         switch ($post_msg) {
             case "帰社":
                 $sql = "update public.user set hour=NULL, minute=NULL, body=NULL, direct_flg=NULL where user_line_id=:user_line_id";
@@ -161,8 +163,6 @@ EOD;
                 replyTextMessage($bot, $event->getReplyToken(), '全ての処理状況をリセットします。');
                 exit;
             default:
-                $post_msg = $event->getText();
-
                 $sql = "select id, user_line_id, name, comment, picture_url, hour, minute from public.user where user_line_id=:user_line_id and hour is not NULL and minute is not NULL and body is NULL";
                 $item = [
                     "user_line_id" => $profile["userId"]
