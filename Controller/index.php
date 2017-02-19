@@ -181,7 +181,7 @@ EOD;
                 }
 
                 // 直帰
-                $sql = "select id, user_line_id, name, comment, picture_url, hour, minute, body from public.user where user_line_id=:user_line_id and hour is NULL and minute is NULL and body is not NULL and ";
+                $sql = "select id, user_line_id, name, comment, picture_url, hour, minute, body from public.user where user_line_id=:user_line_id and hour is NULL and minute is NULL and body is not NULL and direct_flg=:direct_flg";
                 $item = [
                     "user_line_id" => $profile["userId"],
                     "direct_flg" => "1"
@@ -264,7 +264,5 @@ EOD;
             exit;
         }
     }
-
-    // 直帰処理
 
 }
