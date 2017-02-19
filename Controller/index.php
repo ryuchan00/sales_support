@@ -25,8 +25,8 @@ foreach ($events as $event) {
     $pdo = new Connect;
     $pdo->registerProfile($profile);
     if (($event instanceof \LINE\LINEBot\Event\BeaconDetectionEvent)) {
-        error_log($event->getHwid());
-        replyTextMessage($bot, $event->getReplyToken(), 'ビーコンイベント発火');
+//        error_log($event->getHwid());
+        replyTextMessage($bot, $event->getReplyToken(), "ビーコンイベント発火");
         exit;
     }
 
