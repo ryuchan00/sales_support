@@ -47,69 +47,6 @@ EOD;
     $target_hh = array("h_9", "h_10", "h_11", "h_12", "h_13", "h_14", "h_15", "h_16", "h_17", "h_18", "h_19", "h_20", "h_21", "h_22", "h_23");
     $target_mm = array("m_00", "m_15", "m_30", "m_45");
     if (($event instanceof \LINE\LINEBot\Event\MessageEvent\TextMessage)) {
-        $post_msg = $event->getText();
-
-        $sql = "select id, user_line_id, name, comment, picture_url, hour, minute from public.user where user_line_id=:user_line_id and hour is not NULL and minute is not NULL and body is NULL";
-        $item = [
-            "user_line_id" => $profile["userId"]
-        ];
-        $user = $pdo->plurals($sql, $item);
-        if (!empty($user)) {
-            $sql = "update public.user set body=:body where user_line_id=:user_line_id";
-            $item = [
-                "user_line_id" => $profile["userId"],
-                "body" => $post_msg
-            ];
-            $pdo->plurals($sql, $item);
-            // todo:$user['name']の改行マークを置換する。
-            $body = <<<EOD
-本文は以下でよろしいですか？
-*-ここから--------------------*
-各位
-
-{$user['name']}です。
-{$user['hour']}時{$user['minute']}分に帰社します。
-{$post_msg}
-
-以上、宜しくお願い致します。
-*-ここまで--------------------*
-EOD;
-            replyTextMessage($bot, $event->getReplyToken(), $body);
-            exit;
-        }
-
-        $sql = "select id, user_line_id, name, comment, picture_url, hour, minute from public.user where user_line_id=:user_line_id and hour is NULL and minute is NULL and body is NULL and direct_flg=:direct_flg";
-        $item = [
-            "user_line_id" => $profile["userId"],
-            "direct_flg" => "1"
-        ];
-        $user = $pdo->plurals($sql, $item);
-        if (!empty($user)) {
-            $sql = "update public.user set body=:body where user_line_id=:user_line_id";
-            $item = [
-                "user_line_id" => $profile["userId"],
-                "body" => $post_msg
-            ];
-            $pdo->plurals($sql, $item);
-            // todo:$user['name']の改行マークを置換する。
-            $body = <<<EOD
-本文は以下でよろしいですか？
-*-ここから--------------------*
-各位
-
-{$user['name']}です。
-これよりに直帰します。
-{$post_msg}
-
-以上、宜しくお願い致します。
-*-ここまで--------------------*
-EOD;
-            replyTextMessage($bot, $event->getReplyToken(), $body);
-            exit;
-        }
-
-
-
         switch ($post_msg) {
             case "帰社":
                 $sql = "update public.user set hour=NULL, minute=NULL, body=NULL, direct_flg=NULL where user_line_id=:user_line_id";
@@ -223,6 +160,67 @@ EOD;
                 $user = $pdo->plurals($sql, $item);
                 replyTextMessage($bot, $event->getReplyToken(), '全ての処理状況をリセットします。');
                 exit;
+            default:
+                $post_msg = $event->getText();
+
+                $sql = "select id, user_line_id, name, comment, picture_url, hour, minute from public.user where user_line_id=:user_line_id and hour is not NULL and minute is not NULL and body is NULL";
+                $item = [
+                    "user_line_id" => $profile["userId"]
+                ];
+                $user = $pdo->plurals($sql, $item);
+                if (!empty($user)) {
+                    $sql = "update public.user set body=:body where user_line_id=:user_line_id";
+                    $item = [
+                        "user_line_id" => $profile["userId"],
+                        "body" => $post_msg
+                    ];
+                    $pdo->plurals($sql, $item);
+                    // todo:$user['name']の改行マークを置換する。
+                    $body = <<<EOD
+本文は以下でよろしいですか？
+*-ここから--------------------*
+各位
+
+{$user['name']}です。
+{$user['hour']}時{$user['minute']}分に帰社します。
+{$post_msg}
+
+以上、宜しくお願い致します。
+*-ここまで--------------------*
+EOD;
+                    replyTextMessage($bot, $event->getReplyToken(), $body);
+                    exit;
+                }
+
+                $sql = "select id, user_line_id, name, comment, picture_url, hour, minute from public.user where user_line_id=:user_line_id and hour is NULL and minute is NULL and body is NULL and direct_flg=:direct_flg";
+                $item = [
+                    "user_line_id" => $profile["userId"],
+                    "direct_flg" => "1"
+                ];
+                $user = $pdo->plurals($sql, $item);
+                if (!empty($user)) {
+                    $sql = "update public.user set body=:body where user_line_id=:user_line_id";
+                    $item = [
+                        "user_line_id" => $profile["userId"],
+                        "body" => $post_msg
+                    ];
+                    $pdo->plurals($sql, $item);
+                    // todo:$user['name']の改行マークを置換する。
+                    $body = <<<EOD
+本文は以下でよろしいですか？
+*-ここから--------------------*
+各位
+
+{$user['name']}です。
+これよりに直帰します。
+{$post_msg}
+
+以上、宜しくお願い致します。
+*-ここまで--------------------*
+EOD;
+                    replyTextMessage($bot, $event->getReplyToken(), $body);
+                    exit;
+                }
         }
     }
     if ($event instanceof \LINE\LINEBot\Event\PostbackEvent) {
@@ -264,5 +262,4 @@ EOD;
             exit;
         }
     }
-
 }
