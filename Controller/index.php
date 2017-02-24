@@ -88,7 +88,8 @@ EOD;
                 // 帰社
                 $sql = "select id, user_line_id, name, comment, picture_url, hour, minute, body from public.user where user_line_id=:user_line_id and hour is not NULL and minute is not NULL and body is not NULL and direct_flg=:direct_flg";
                 $item = [
-                    "user_line_id" => $profile["userId"]
+                    "user_line_id" => $profile["userId"],
+                    "direct_flg" => NULL
                 ];
                 $user = $pdo->plurals($sql, $item);
                 if (!empty($user)) {
