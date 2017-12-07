@@ -23,9 +23,8 @@ try {
 //ユーザーからのメッセージ取得
 $json_string = file_get_contents('php://input');
 $json_object = json_decode($json_string);
+error_log(print_r($json_object, true));
 
-//取得データ
-$replyToken = $json_object;        //返信用トークン
 
 foreach ($events as $event) {
     $profile = $bot->getProfile($event->getUserId())->getJSONDecodedBody();
@@ -33,7 +32,6 @@ foreach ($events as $event) {
     $pdo->registerProfile(print_r($replyToken, true));
     if (($event instanceof \LINE\LINEBot\Event\BeaconDetectionEvent)) {
 //        error_log($event->getHwid());
-        error_log(var_dump($profile));
         $body = <<<EOD
         
 HWID:{$profile['beacon']['hwid']} のビーコンイベント発火
