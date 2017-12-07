@@ -26,6 +26,7 @@ foreach ($events as $event) {
     $pdo->registerProfile($profile);
     if (($event instanceof \LINE\LINEBot\Event\BeaconDetectionEvent)) {
 //        error_log($event->getHwid());
+        error_log(var_dump($profile));
         $body = <<<EOD
 HWID:{$profile['beacon']['hwid']} のビーコンイベント発火
 {$profile['beacon']['type']} イベントが発生!!!
