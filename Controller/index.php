@@ -47,16 +47,19 @@ EOD;
 
     // ビーコン処理
     if (($event instanceof \LINE\LINEBot\Event\BeaconDetectionEvent)) {
-        error_log(print_r($profile, true));
         $type = $json_object->{"events"}[0]->{"beacon"}->{"type"};
-        error_log(print_r($type, true));
         $sql = "select id, user_line_id, name, comment, picture_url, hour, minute, body from public.user where user_line_id=:user_line_id and hour is not NULL and minute is not NULL and body is not NULL";
         $item = [
             "user_line_id" => $profile["userId"]
         ];
         $user = $pdo->plurals($sql, $item);
+        if ($type === "enter") {
+            $message = "お帰りなさい";
+        } elseif (($type === "leave")) {
+            $message = "行ってらっしゃい";
+        }
         $body = <<<EOD
-aお帰りなさい!!
+{$user['dispalyName']} {$message}!!
 EOD;
         replyTextMessage($bot, $event->getReplyToken(), $body);
         exit;
