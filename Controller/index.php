@@ -21,6 +21,7 @@ try {
 }
 
 //ユーザーからのメッセージ取得
+// ref:http://ysklog.net/line_bot/4551.html
 $json_string = file_get_contents('php://input');
 $json_object = json_decode($json_string);
 error_log(print_r($json_object, true));
