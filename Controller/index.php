@@ -31,16 +31,6 @@ foreach ($events as $event) {
     $profile = $bot->getProfile($event->getUserId())->getJSONDecodedBody();
     $pdo = new Connect;
     $pdo->registerProfile(print_r($replyToken, true));
-    if (($event instanceof \LINE\LINEBot\Event\BeaconDetectionEvent)) {
-//        error_log($event->getHwid());
-        $body = <<<EOD
-        
-HWID:{$profile['beacon']['hwid']} のビーコンイベント発火
-{$profile['beacon']['type']} イベントが発生!!!
-EOD;
-        replyTextMessage($bot, $event->getReplyToken(), $body);
-        exit;
-    }
 
     // 友達追加処理
     if ($event instanceof \LINE\LINEBot\Event\FollowEvent) {
@@ -52,6 +42,20 @@ EOD;
 を押すと、自動的にメールを送信してくれます！
 EOD;
         replyTextMessage($bot, $event->getReplyToken(), $message);
+        exit;
+    }
+
+    // ビーコン処理
+    if (($event instanceof \LINE\LINEBot\Event\BeaconDetectionEvent)) {
+        $sql = "select id, user_line_id, name, comment, picture_url, hour, minute, body from public.user where user_line_id=:user_line_id and hour is not NULL and minute is not NULL and body is not NULL";
+        $item = [
+            "user_line_id" => $profile["userId"]
+        ];
+        $user = $pdo->plurals($sql, $item);
+        $body = <<<EOD
+{$user['name']}さん お帰りなさい!!
+EOD;
+        replyTextMessage($bot, $event->getReplyToken(), $body);
         exit;
     }
 
